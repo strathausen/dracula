@@ -96,8 +96,8 @@ Raphael.fn.connection = function (obj1, obj2, style) {
             style && style.label 
                 && (edge.label && edge.label.attr({x:(x1+x4)/2, y:(y1+y4)/2}) 
                     || (edge.label = selfRef.text((x1+x4)/2, (y1+y4)/2, style.label).attr({fill: "#000", "font-size": style["font-size"] || "12px"})));
-//                && selfRef.text(x4, y4, style.label).attr({stroke: style && style.stroke || "#fff", "font-weight":"bold", "font-size":"20px"})
-//            style && style.callback && style.callback(edge);
+            style && style.label && style["label-style"] && edge.label && edge.label.attr(style["label-style"]);
+            style && style.callback && style.callback(edge);
         }
     }
     edge.draw();
