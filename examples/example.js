@@ -65,7 +65,11 @@ window.onload = function() {
     //        overlay : "<b>Hello <a href=\"http://wikipedia.org/\">World!</a></b>"
     //    });
 
-    st = { directed: true, label : "Label"};
+    st = { directed: true, label : "Label",
+            "label-style" : {
+                "font-size": 20
+            },
+        };
     g.addEdge("kiwi", "penguin", st);
 
     /* connect nodes with edges */
