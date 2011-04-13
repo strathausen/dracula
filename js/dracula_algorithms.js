@@ -542,6 +542,21 @@ Function.prototype.curry = function(){
 };
 
 /**
+ * Node ID Sort
+ *
+ * Sort a directed graph by the IDs useful for limited circumstances
+ * Assumes node.id is an integer. Might change later.
+ *
+ */
+function nodeid_sort(g) {
+	var sorted_list = [];
+    for (n in g.nodes)
+        sorted_list.unshift(g.nodes[n]);
+    sorted_list.sort(function(a,b){ return a.id - b.id; })
+    return sorted_list;
+}
+
+/**
  * Topological Sort
  *
  * Sort a directed graph based on incoming edges
