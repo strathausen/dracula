@@ -64,7 +64,7 @@ $(document).ready(function() {
     g.addEdge(14, 7);
     g.addEdge(15, 7);
 
-    var layouter = new Graph.Layout.OrderedTree(g, nodeid_sort(g));
+    var layouter = new Graph.Layout.TournamentTree(g, nodeid_sort(g));
     
     var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
 });

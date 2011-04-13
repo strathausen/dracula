@@ -542,6 +542,71 @@ Graph.Layout.OrderedTree.prototype = {
 };
 
 
+Graph.Layout.TournamentTree = function(graph, order) {
+    this.graph = graph;
+    this.order = order;
+    this.layout();
+};
+
+/*
+ * TournamentTree looks more like a binary tree
+ */
+Graph.Layout.TournamentTree.prototype = {
+    layout: function() {
+        this.layoutPrepare();
+        this.layoutCalcBounds();
+    },
+    
+    layoutPrepare: function(order) {
+        for (i in this.graph.nodes) {
+            var node = this.graph.nodes[i];
+            node.layoutPosX = 0;
+            node.layoutPosY = 0;
+        }
+        //to reverse the order of rendering, we need to find out the
+        //absolute number of levels we have. simple log math applies.
+        var numNodes = this.order.length;
+        var totalLevels = Math.floor(Math.log(numNodes) / Math.log(2));
+        
+        var counter = 1;
+        for (i in this.order) {
+            var node = this.order[i];
+            var depth = Math.floor(Math.log(counter) / Math.log(2));
+            var xpos = counter - Math.pow(depth, 2);
+            var offset = Math.pow(2, totalLevels - depth);
+            var final_x = offset + (counter - Math.pow(2,depth)) * Math.pow(2,(totalLevels - depth)+1);
+            
+            log('Node ' + node.id + '  #' + counter + ' is at depth ' + depth + ' offset ' + offset + ' final_x ' + final_x);
+            node.layoutPosX = final_x;
+            node.layoutPosY = depth;
+            counter++;
+        }
+    },
+    
+    layoutCalcBounds: function() {
+        var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
+
+        for (i in this.graph.nodes) {
+            var x = this.graph.nodes[i].layoutPosX;
+            var y = this.graph.nodes[i].layoutPosY;
+            
+            if(x > maxx) maxx = x;
+            if(x < minx) minx = x;
+            if(y > maxy) maxy = y;
+            if(y < miny) miny = y;
+        }
+
+        this.graph.layoutMinX = minx;
+        this.graph.layoutMaxX = maxx;
+
+        this.graph.layoutMinY = miny;
+        this.graph.layoutMaxY = maxy;
+    }
+};
+
+
+
+
 /*
  * usefull JavaScript extensions, 
  */
