@@ -194,6 +194,23 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
     };
     this.draw();
 };
+
+
+/* Moved this default node renderer function out of the main prototype code
+ * so it can be override by default */
+Graph.Renderer.defaultRenderFunc = function(r, node) {
+    /* the default node drawing */
+    var color = Raphael.getColor();
+    var ellipse = r.ellipse(0, 0, 30, 20).attr({fill: color, stroke: color, "stroke-width": 2});
+    /* set DOM node ID */
+    ellipse.node.id = node.label || node.id;
+    shape = r.set().
+        push(ellipse).
+        push(r.text(0, 30, node.label || node.id));
+    return shape;
+}
+
+
 Graph.Renderer.Raphael.prototype = {
     translate: function(point) {
         return [
@@ -237,17 +254,7 @@ Graph.Renderer.Raphael.prototype = {
         /* if a node renderer function is provided by the user, then use it 
            or the default render function instead */
         if(!node.render) {
-            node.render = function(r, node) {
-                /* the default node drawing */
-                var color = Raphael.getColor();
-                var ellipse = r.ellipse(0, 0, 30, 20).attr({fill: color, stroke: color, "stroke-width": 2});
-                /* set DOM node ID */
-                ellipse.node.id = node.label || node.id;
-                shape = r.set().
-                    push(ellipse).
-                    push(r.text(0, 30, node.label || node.id));
-                return shape;
-            }
+            node.render = Graph.Renderer.defaultRenderFunc;
         }
         /* or check for an ajax representation of the nodes */
         if(node.shapes) {
@@ -470,6 +477,137 @@ Graph.Layout.Ordered.prototype = {
         this.graph.layoutMaxY = maxy;
     }
 };
+
+
+Graph.Layout.OrderedTree = function(graph, order) {
+    this.graph = graph;
+    this.order = order;
+    this.layout();
+};
+
+/*
+ * OrderedTree is like Ordered but assumes there is one root
+ * This way we can give non random positions to nodes on the Y-axis
+ * it assumes the ordered nodes are of a perfect binary tree
+ */
+Graph.Layout.OrderedTree.prototype = {
+    layout: function() {
+        this.layoutPrepare();
+        this.layoutCalcBounds();
+    },
+    
+    layoutPrepare: function(order) {
+        for (i in this.graph.nodes) {
+            var node = this.graph.nodes[i];
+            node.layoutPosX = 0;
+            node.layoutPosY = 0;
+        }
+        //to reverse the order of rendering, we need to find out the
+        //absolute number of levels we have. simple log math applies.
+        var numNodes = this.order.length;
+        var totalLevels = Math.floor(Math.log(numNodes) / Math.log(2));
+        
+        var counter = 1;
+        for (i in this.order) {
+            var node = this.order[i];
+            //rank aka x coordinate 
+            var rank = Math.floor(Math.log(counter) / Math.log(2));
+            //file relative to top
+            var file = counter - Math.pow(rank, 2);
+            
+            log('Node ' + node.id + '  #' + counter + ' is at rank ' + rank + ' file ' + file);
+            node.layoutPosX = totalLevels - rank;
+            node.layoutPosY = file;
+            counter++;
+        }
+    },
+    
+    layoutCalcBounds: function() {
+        var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
+
+        for (i in this.graph.nodes) {
+            var x = this.graph.nodes[i].layoutPosX;
+            var y = this.graph.nodes[i].layoutPosY;
+            
+            if(x > maxx) maxx = x;
+            if(x < minx) minx = x;
+            if(y > maxy) maxy = y;
+            if(y < miny) miny = y;
+        }
+
+        this.graph.layoutMinX = minx;
+        this.graph.layoutMaxX = maxx;
+
+        this.graph.layoutMinY = miny;
+        this.graph.layoutMaxY = maxy;
+    }
+};
+
+
+Graph.Layout.TournamentTree = function(graph, order) {
+    this.graph = graph;
+    this.order = order;
+    this.layout();
+};
+
+/*
+ * TournamentTree looks more like a binary tree
+ */
+Graph.Layout.TournamentTree.prototype = {
+    layout: function() {
+        this.layoutPrepare();
+        this.layoutCalcBounds();
+    },
+    
+    layoutPrepare: function(order) {
+        for (i in this.graph.nodes) {
+            var node = this.graph.nodes[i];
+            node.layoutPosX = 0;
+            node.layoutPosY = 0;
+        }
+        //to reverse the order of rendering, we need to find out the
+        //absolute number of levels we have. simple log math applies.
+        var numNodes = this.order.length;
+        var totalLevels = Math.floor(Math.log(numNodes) / Math.log(2));
+        
+        var counter = 1;
+        for (i in this.order) {
+            var node = this.order[i];
+            var depth = Math.floor(Math.log(counter) / Math.log(2));
+            var xpos = counter - Math.pow(depth, 2);
+            var offset = Math.pow(2, totalLevels - depth);
+            var final_x = offset + (counter - Math.pow(2,depth)) * Math.pow(2,(totalLevels - depth)+1);
+            
+            log('Node ' + node.id + '  #' + counter + ' is at depth ' + depth + ' offset ' + offset + ' final_x ' + final_x);
+            node.layoutPosX = final_x;
+            node.layoutPosY = depth;
+            counter++;
+        }
+    },
+    
+    layoutCalcBounds: function() {
+        var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
+
+        for (i in this.graph.nodes) {
+            var x = this.graph.nodes[i].layoutPosX;
+            var y = this.graph.nodes[i].layoutPosY;
+            
+            if(x > maxx) maxx = x;
+            if(x < minx) minx = x;
+            if(y > maxy) maxy = y;
+            if(y < miny) miny = y;
+        }
+
+        this.graph.layoutMinX = minx;
+        this.graph.layoutMaxX = maxx;
+
+        this.graph.layoutMinY = miny;
+        this.graph.layoutMaxY = maxy;
+    }
+};
+
+
+
 
 /*
  * usefull JavaScript extensions, 
