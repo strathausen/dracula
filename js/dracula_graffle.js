@@ -8,8 +8,8 @@
 /**
  * Usage:
  * connect two shapes
- * parameters: 
- *      source shape [or connection for redrawing], 
+ * parameters:
+ *      source shape [or connection for redrawing],
  *      target shape,
  *      style with { fg : linecolor, bg : background color, directed: boolean }
  * returns:
@@ -39,7 +39,7 @@ Raphael.fn.connection = function (obj1, obj2, style) {
                 {x: bb2.x - off2, y: bb2.y + bb2.height / 2},             /* WEST  2 */
                 {x: bb2.x + bb2.width + off2, y: bb2.y + bb2.height / 2}  /* EAST  2 */
             ];
-            
+
             /* distances between objects and according coordinates connection */
             var d = {}, dis = [];
 
@@ -83,18 +83,18 @@ Raphael.fn.connection = function (obj1, obj2, style) {
                     {x:(norm(x4-x3)+norm(y4-y3)+x4).toFixed(3), y:(norm(y4-y3)+norm(x4-x3)+y4).toFixed(3)},
                     {x:(norm(x4-x3)-norm(y4-y3)+x4).toFixed(3), y:(norm(y4-y3)-norm(x4-x3)+y4).toFixed(3)}
                 ];
-                path = path + ",M"+arr[0].x+","+arr[0].y+",L"+x4+","+y4+",L"+arr[1].x+","+arr[1].y; 
+                path = path + ",M"+arr[0].x+","+arr[0].y+",L"+x4+","+y4+",L"+arr[1].x+","+arr[1].y;
             }
             /* function to be used for moving existent path(s), e.g. animate() or attr() */
             var move = "attr";
             /* applying path(s) */
-            edge.fg && edge.fg[move]({path:path}) 
+            edge.fg && edge.fg[move]({path:path})
                 || (edge.fg = selfRef.path(path).attr({stroke: style && style.stroke || "#000", fill: "none"}).toBack());
             edge.bg && edge.bg[move]({path:path})
                 || style && style.fill && (edge.bg = style.fill.split && selfRef.path(path).attr({stroke: style.fill.split("|")[0], fill: "none", "stroke-width": style.fill.split("|")[1] || 3}).toBack());
             /* setting label */
-            style && style.label 
-                && (edge.label && edge.label.attr({x:(x1+x4)/2, y:(y1+y4)/2}) 
+            style && style.label
+                && (edge.label && edge.label.attr({x:(x1+x4)/2, y:(y1+y4)/2})
                     || (edge.label = selfRef.text((x1+x4)/2, (y1+y4)/2, style.label).attr({fill: "#000", "font-size": style["font-size"] || "12px"})));
             style && style.label && style["label-style"] && edge.label && edge.label.attr(style["label-style"]);
             style && style.callback && style.callback(edge);

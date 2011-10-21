@@ -4,9 +4,9 @@ window.onload = function() {
     var width = $(document).width();
     var height = $(document).height() - 100;
 
-    /* Showcase of the Bellman-Ford search algorithm finding shortest paths 
+    /* Showcase of the Bellman-Ford search algorithm finding shortest paths
        from one point to every node */
-    
+
     /*  */
 
     /* We need to write a new node renderer function to display the computed
@@ -21,9 +21,9 @@ window.onload = function() {
                 r.text(n.point[0], n.point[1] + 10, (n.label || n.id) + "\n(" + (n.distance == undefined ? "Infinity" : n.distance) + ")"));
             return set;
         };
-    
+
     var g = new Graph();
-    
+
     /* modify the edge creation to attach random weights */
     g.edgeFactory.build = function(source, target) {
 	var e = jQuery.extend(true, {}, this.template);
@@ -32,7 +32,7 @@ window.onload = function() {
 	e.style.label = e.weight = Math.floor(Math.random() * 10) + 1;
 	return e;
     }
-    
+
     /* creating nodes and passing the new renderer function to overwrite the default one */
     g.addNode("New York", {render:render}); // TODO add currying support for nicer code
     g.addNode("Berlin", {render:render});
@@ -63,15 +63,15 @@ window.onload = function() {
 */
     /* layout the graph using the Spring layout implementation */
     var layouter = new Graph.Layout.Spring(g);
-    
+
     /* draw the graph using the RaphaelJS draw implementation */
 
     /* calculating the shortest paths via Bellman Ford */
 //    bellman_ford(g, g.nodes["Berlin"]);
-    
+
     /* calculating the shortest paths via Dijkstra */
     dijkstra(g, g.nodes["Berlin"]);
-    
+
     /* calculating the shortest paths via Floyd-Warshall */
     floyd_warshall(g, g.nodes["Berlin"]);
 
@@ -85,14 +85,14 @@ window.onload = function() {
             g.edges[e].style.stroke = "#aaa";
         }
     }
-    
+
     var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
 
     redraw = function() {
         layouter.layout();
         renderer.draw();
     };
-    
+
 /*    var pos=0;
     step = function(dir) {
         pos+=dir;
