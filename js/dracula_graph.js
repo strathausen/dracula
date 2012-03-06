@@ -181,6 +181,7 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
             selfRef.isDrag.set.translate(clientX - Math.round(selfRef.isDrag.dx), clientY - Math.round(selfRef.isDrag.dy));
             //            console.log(clientX - Math.round(selfRef.isDrag.dx), clientY - Math.round(selfRef.isDrag.dy));
             for (var i in selfRef.graph.edges) {
+                selfRef.graph.edges[i] &&
                 selfRef.graph.edges[i].connection && selfRef.graph.edges[i].connection.draw();
             }
             //selfRef.r.safari();
