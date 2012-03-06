@@ -272,7 +272,8 @@ Graph.Renderer.Raphael.prototype = {
         if(edge.backedge)
             return;
         if(edge.source.hidden || edge.target.hidden) {
-            edge.connection && edge.connection.fg.hide() | edge.connection.bg && edge.connection.bg.hide();
+            edge.connection && edge.connection.fg.hide();
+            edge.connection.bg && edge.connection.bg.hide();
             return;
         }
         /* if edge already has been drawn, only refresh the edge */
