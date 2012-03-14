@@ -9,20 +9,20 @@
 
 /*
         Bellman-Ford
-    
+
     Path-finding algorithm, finds the shortest paths from one node to all nodes.
-    
-    
+
+
         Complexity
-        
+
     O( |E| · |V| ), where E = edges and V = vertices (nodes)
-    
-    
+
+
         Constraints
-    
+
     Can run on graphs with negative edge weights as long as they do not have
     any negative weight cycles.
-    
+
  */
 function bellman_ford(g, source) {
 
@@ -31,9 +31,9 @@ function bellman_ford(g, source) {
         g.nodes[n].distance = Infinity;
         /* predecessors are implicitly null */
     source.distance = 0;
-    
+
     step("Initially, all distances are infinite and all predecessors are null.");
-    
+
     /* STEP 2: relax each edge (this is at the heart of Bellman-Ford) */
     /* repeat this for the number of nodes minus one */
     for(var i = 1; i < g.nodes.length; i++)
@@ -55,7 +55,7 @@ function bellman_ford(g, source) {
 	    }
         }
     step("Ready.");
-    
+
     /* STEP 3: TODO Check for negative cycles */
     /* For now we assume here that the graph does not contain any negative
        weights cycles. (this is left as an excercise to the reader[tm]) */
@@ -65,7 +65,7 @@ function bellman_ford(g, source) {
 
 /*
    Path-finding algorithm Dijkstra
-   
+
    - worst-case running time is O((|E| + |V|) · log |V| ) thus better than
      Bellman-Ford for sparse graphs (with less edges), but cannot handle
      negative edge weights
@@ -101,16 +101,16 @@ function dijkstra(g, source) {
         /* for each neighbour of node */
         for(e in node.edges) {
 	    var other = (node == node.edges[e].target) ? node.edges[e].source : node.edges[e].target;
-		
+
             if(other.optimized)
                 continue;
 
             /* look for an alternative route */
             var alt = node.distance + node.edges[e].weight;
-            
+
             /* update distance and route if a better one has been found */
             if (alt < other.distance) {
-            
+
                 /* update distance of neighbour */
                 other.distance = alt;
 
@@ -144,16 +144,16 @@ function floyd_warshall(g, source) {
         next[j] = [];
         for(i in g.nodes)
             path[j][i] = j == i ? 0 : Infinity;
-    }   
-    
+    }
+
     /* initialize path with edge weights */
     for(e in g.edges)
         path[g.edges[e].source.id][g.edges[e].target.id] = g.edges[e].weight;
-    
+
     /* Note: Usually, the initialisation is done by getting the edge weights
        from a node matrix representation of the graph, not by iterating through
        a list of edges as done here. */
-    
+
     /* Step 2: find best distances (the heart of Floyd-Warshall) */
     for(k in g.nodes){
         for(i in g.nodes) {
@@ -184,60 +184,60 @@ function floyd_warshall(g, source) {
 
 /*
         Ford-Fulkerson
-    
+
     Max-Flow-Min-Cut Algorithm finding the maximum flow through a directed
     graph from source to sink.
-    
-    
+
+
         Complexity
 
     O(E * max(f)), max(f) being the maximum flow
-    
-    
+
+
         Description
 
     As long as there is an open path through the residual graph, send the
     minimum of the residual capacities on the path.
-    
-    
+
+
         Constraints
-    
+
     The algorithm works only if all weights are integers. Otherwise it is
     possible that the Ford–Fulkerson algorithm will not converge to the maximum
     value.
-    
-    
+
+
         Input
-    
+
     g - Graph object
     s - Source ID
     t - Target (sink) ID
-    
-    
+
+
         Output
-    
+
     Maximum flow from Source s to Target t
 
  */
 /*
         Edmonds-Karp
-    
+
     Max-Flow-Min-Cut Algorithm finding the maximum flow through a directed
     graph from source to sink. An implementation of the Ford-Fulkerson
     algorithm.
-    
-    
+
+
         Complexity
-    
+
     O(|V|*|E|²)
-    
-    
+
+
         Input
-        
+
     g - Graph object (with node and edge lists, capacity is a property of edge)
     s - source ID
     t - sink ID
-    
+
  */
 function edmonds_karp(g, s, t) {
 
@@ -248,7 +248,7 @@ function edmonds_karp(g, s, t) {
    - takes an array as the input, with elements having a key property
    - elements will look like this:
         {
-            key: "... key property ...", 
+            key: "... key property ...",
             value: "... element content ..."
         }
     - provides insert(), min(), extractMin() and heapify()
@@ -264,18 +264,18 @@ function edmonds_karp(g, s, t) {
     - can also be used on a simple array, like [9,7,8,5]
  */
 function BinaryMinHeap(array, key) {
-    
+
     /* Binary tree stored in an array, no need for a complicated data structure */
     var tree = [];
-    
+
     var key = key || 'key';
-    
+
     /* Calculate the index of the parent or a child */
     var parent = function(index) { return Math.floor((index - 1)/2); };
     var right = function(index) { return 2 * index + 2; };
     var left = function(index) { return 2 * index + 1; };
 
-    /* Helper function to swap elements with their parent 
+    /* Helper function to swap elements with their parent
        as long as the parent is bigger */
     function bubble_up(i) {
         var p = parent(i);
@@ -293,59 +293,59 @@ function BinaryMinHeap(array, key) {
     function bubble_down(i) {
         var l = left(i);
         var r = right(i);
-        
+
         /* as long as there are smaller children */
         while(tree[l] && (tree[i][key] > tree[l][key]) || tree[r] && (tree[i][key] > tree[r][key])) {
-            
+
             /* find smaller child */
             var child = tree[l] ? tree[r] ? tree[l][key] > tree[r][key] ? r : l : l : l;
-            
+
             /* swap with smaller child with current element */
             tree[i] = tree.splice(child, 1, tree[i])[0];
-            
+
             /* go up one level */
             i = child;
             l = left(i);
             r = right(i);
         }
     }
-    
+
     /* Insert a new element with respect to the heap property
        1. Insert the element at the end
        2. Bubble it up until it is smaller than its parent */
     this.insert = function(element) {
-    
+
         /* make sure there's a key property */
         (element[key] == undefined) && (element = {key:element});
-        
+
         /* insert element at the end */
         tree.push(element);
 
         /* bubble up the element */
         bubble_up(tree.length - 1);
     }
-    
+
     /* Only show us the minimum */
     this.min = function() {
         return tree.length == 1 ? undefined : tree[0];
     }
-    
+
     /* Return and remove the minimum
        1. Take the root as the minimum that we are looking for
-       2. Move the last element to the root (thereby deleting the root) 
+       2. Move the last element to the root (thereby deleting the root)
        3. Compare the new root with both of its children, swap it with the
           smaller child and then check again from there (bubble down)
     */
     this.extractMin = function() {
         var result = this.min();
-        
+
         /* move the last element to the root or empty the tree completely */
         /* bubble down the new root if necessary */
         (tree.length == 1) && (tree = []) || (tree[0] = tree.pop()) && bubble_down(0);
-        
-        return result;        
+
+        return result;
     }
-    
+
     /* currently unused, TODO implement */
     this.changeKey = function(index, key) {
         throw "function not implemented";
@@ -356,7 +356,7 @@ function BinaryMinHeap(array, key) {
             bubble_down(start);
         }
     }
-    
+
     /* insert the input elements one by one only when we don't have a key property (TODO can be done more elegant) */
     for(i in (array || []))
         this.insert(array[i]);
@@ -448,15 +448,15 @@ function mergeSort(arr) {
 
 /* Balanced Red-Black-Tree */
 function RedBlackTree(arr) {
-    
+
 }
 
 function BTree(arr) {
-    
+
 }
 
 function NaryTree(n, arr) {
-    
+
 }
 
 /**
@@ -478,28 +478,28 @@ function kmp(p, t) {
         for(q = 1; q < p.length; q++) {
             while(k > 0 && (p.charAt(k) != p.charAt(q)))
                 k = pi[k-1];
-            
+
             (p.charAt(k) == p.charAt(q)) && k++;
-            
+
             pi[q] = k;
         }
         return pi;
     }
-    
+
     /* The actual KMP algorithm starts here. */
-    
+
     var pi = prefix(p), q = 0, result = [];
-    
+
     for(var i = 0; i < t.length; i++) {
         /* jump forward as long as the character doesn't match */
         while((q > 0) && (p.charAt(q) != t.charAt(i)))
             q = pi[q];
-        
+
         (p.charAt(q) == t.charAt(i)) && q++;
-        
+
         (q == p.length) && result.push(i - p.length) && (q = pi[q]);
     }
-    
+
     return result;
 }
 
@@ -554,7 +554,7 @@ function topological_sort(g) {
 
     for(i in g.nodes)
 	g.nodes[i].deleted = false;
-    
+
     var ret = topological_sort_helper(g);
 
     //Cleanup: Remove the deleted property
@@ -569,7 +569,7 @@ function topological_sort_helper(g) {
     for(i in g.nodes) {
 	if(g.nodes[i].deleted)
 	    continue; //Bad style, meh
-	
+
 	var incoming = false;
 	for(j in g.nodes[i].edges) {
 	    if(g.nodes[i].edges[j].target == g.nodes[i]
@@ -590,7 +590,7 @@ function topological_sort_helper(g) {
 
     //"Delete" node from g
     node.deleted = true;
-    
+
     var tail = topological_sort_helper(g);
 
     tail.unshift(node);

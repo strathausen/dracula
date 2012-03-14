@@ -8,8 +8,8 @@
 /**
  * Usage:
  * connect two shapes
- * parameters: 
- *      source shape [or connection for redrawing], 
+ * parameters:
+ *      source shape [or connection for redrawing],
  *      target shape,
  *      style with { fg : linecolor, bg : background color, directed: boolean }
  * returns:
@@ -79,7 +79,7 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
           x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
           y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
       /* assemble path and arrow */
-      var path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+      var path = ["M" + x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
       /* arrow */
       if(style && style.directed) {
         /* magnitude, length of the last path vector */
