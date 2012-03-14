@@ -41,7 +41,7 @@ var EdgeFactory = function() {
 };
 EdgeFactory.prototype = {
     build: function(source, target) {
-        var e = _.clone(this.template);
+        var e = jQuery.extend(true, {}, this.template);
         e.source = source;
         e.target = target;
         return e;
@@ -77,7 +77,7 @@ Graph.prototype = {
         var s = this.addNode(source);
         var t = this.addNode(target);
         var edge = this.edgeFactory.build(s, t);
-        _.defaults(edge.style, style);
+        jQuery.extend(true, edge.style, style);
         s.edges.push(edge);
         this.edges.push(edge);
         // NOTE: Even directed edges are added to both nodes.

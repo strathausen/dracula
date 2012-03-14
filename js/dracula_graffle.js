@@ -25,8 +25,6 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
     draw : function() {
       /* get bounding boxes of target and source */
       var bb1 = obj1.getBBox();
-      console.log('bb1',bb1);
-      console.log('obj1', obj1);
       var bb2 = obj2.getBBox();
       var off1 = 0;
       var off2 = 0;

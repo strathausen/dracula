@@ -12,13 +12,19 @@ window.onload = function() {
      (the Raphael graph drawing implementation of Dracula can draw this shape,
      please consult the RaphaelJS reference for details http://raphaeljs.com/) */
   var render = function(r, n) {
+    frame = r.rect(n.point[0] - 30, n.point[1] - 13, 60, 44);
+    frame.attr({
+        'fill': '#feb'/*, r : '12px'*/,
+        'stroke-width' : (n.distance === 0 ? '3px' : '1px')
+      });
     /* the Raphael set is obligatory, containing all you want to display */
     var set = r.set()
       .push(
+        frame,
         /* custom objects go here */
-        r.rect(n.point[0] - 30, n.point[1] - 13, 60, 44)
-          .attr({'fill': '#feb', r : '12px', 'stroke-width' : n.distance === 0 ? '3px' : '1px' }),
-        r.text(n.point[0], n.point[1] + 10, (n.label || n.id) + "\n(" + (n.distance === undefined ? 'Infinity' : n.distance) + ')'));
+        r.text(n.point[0], n.point[1] + 10, (n.label || n.id)
+          + "\n(" + (n.distance === undefined ? 'Infinity' : n.distance) + ')')
+      );
     return set;
   };
 
@@ -26,7 +32,7 @@ window.onload = function() {
 
   /* modify the edge creation to attach random weights */
   g.edgeFactory.build = function(source, target) {
-    var e = _.clone(this.template);
+    var e = jQuery.extend(true, {}, this.template);
     e.source = source;
     e.target = target;
     e.style.label = e.weight = Math.floor(Math.random() * 10) + 1;

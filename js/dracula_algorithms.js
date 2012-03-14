@@ -125,7 +125,6 @@ function dijkstra(g, source) {
       }
     }
   }
-  console.log(g);
 }
 
 
