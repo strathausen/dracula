@@ -1,0 +1,25 @@
+{
+  "author": "Johann Philipp Strathausen",
+  "name": "graphdracula",
+  "description": "JavaScript Graph Layouting and Drawing",
+  "version": "0.0.3alpha5-19-g6301dfc",
+  "homepage": "http://www.graphdracula.net",
+  "keywords": [
+    "dracula",
+    "graph",
+    "svg",
+    "math"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/strathausen/dracula.git"
+  },
+  "dependencies": {
+    "jquery": "~1.7.3"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
