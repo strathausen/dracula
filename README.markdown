@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/strathausen/dracula.png)](http://travis-ci.org/strathausen/dracula)
 # Graph Dracula - a JavaScript Graph Library
 
 Graph Dracula is a set of tools to display and layout interactive graphs,
