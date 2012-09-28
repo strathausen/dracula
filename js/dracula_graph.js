@@ -202,7 +202,7 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
 Graph.Renderer.defaultRenderFunc = function(r, node) {
     /* the default node drawing */
     var color = Raphael.getColor();
-    var ellipse = r.ellipse(0, 0, 30, 20).attr({fill: color, stroke: color, "stroke-width": 2});
+    var ellipse = r.ellipse(0, 0, 30, 20).attr({fill: node.fill || color, stroke: node.stroke || color, "stroke-width": 2});
     /* set DOM node ID */
     ellipse.node.id = node.label || node.id;
     shape = r.set().
