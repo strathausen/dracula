@@ -4,8 +4,8 @@ var redraw;
 /* only do all this when document has finished loading (needed for RaphaelJS) */
 window.onload = function() {
 
-  var width = 400;
-  var height = 300;
+  var width = 600;
+  var height = 400;
 
   var g = new Graph();
 
