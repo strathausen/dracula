@@ -22,31 +22,7 @@
  *
  /*--------------------------------------------------------------------------*/
 
-/*
- * Edge Factory
- */
-var AbstractEdge = function() {
-}
-AbstractEdge.prototype = {
-  hide: function() {
-    this.connection.fg.hide();
-    this.connection.bg && this.bg.connection.hide();
-  }
-};
-var EdgeFactory = function() {
-  this.template = new AbstractEdge();
-  this.template.style = new Object();
-  this.template.style.directed = false;
-  this.template.weight = 1;
-};
-EdgeFactory.prototype = {
-  build: function(source, target) {
-    var e = jQuery.extend(true, {}, this.template);
-    e.source = source;
-    e.target = target;
-    return e;
-  }
-};
+
 
 /*
  * Graph
@@ -55,7 +31,6 @@ var Graph = function() {
   this.nodes = {};
   this.edges = [];
   this.snapshots = []; // previous graph states TODO to be implemented
-  this.edgeFactory = new EdgeFactory();
 };
 Graph.prototype = {
   /*
@@ -67,7 +42,7 @@ Graph.prototype = {
    */
   addNode: function(id, content) {
     /* testing if node is already existing in the graph */
-    if(this.nodes[id] == undefined) {
+    if(this.nodes[id] === undefined) {
       this.nodes[id] = new Graph.Node(id, content);
     }
     return this.nodes[id];
@@ -76,41 +51,58 @@ Graph.prototype = {
   addEdge: function(source, target, style) {
     var s = this.addNode(source);
     var t = this.addNode(target);
-    var edge = this.edgeFactory.build(s, t);
-    jQuery.extend(true, edge.style, style);
+    var edge = new Graph.Edge({ source: s, target: t, style: style });
     s.edges.push(edge);
     this.edges.push(edge);
     // NOTE: Even directed edges are added to both nodes.
     t.edges.push(edge);
   },
 
-           /* TODO to be implemented
-            * Preserve a copy of the graph state (nodes, positions, ...)
-            * @comment     a comment describing the state
-            */
+  /* TODO to be implemented
+   * Preserve a copy of the graph state (nodes, positions, ...)
+   * @comment     a comment describing the state
+   */
   snapShot: function(comment) {
-    /* FIXME
-       var graph = new Graph();
-       graph.nodes = jQuery.extend(true, {}, this.nodes);
-       graph.edges = jQuery.extend(true, {}, this.edges);
-       this.snapshots.push({comment: comment, graph: graph});
-       */
-            },
-removeNode: function(id) {
-              delete this.nodes[id];
-              for(var i = 0; i < this.edges.length; i++) {
-                if (this.edges[i].source.id == id || this.edges[i].target.id == id) {
-                  this.edges.splice(i, 1);
-                  i--;
-                }
-              }
-            }
+    // FIXME
+    //var graph = new Graph();
+    //graph.nodes = jQuery.extend(true, {}, this.nodes);
+    //graph.edges = jQuery.extend(true, {}, this.edges);
+    //this.snapshots.push({comment: comment, graph: graph});
+  },
+  removeNode: function(id) {
+    delete this.nodes[id];
+    for(var i = 0; i < this.edges.length; i++) {
+      if (this.edges[i].source.id == id || this.edges[i].target.id == id) {
+        this.edges.splice(i, 1);
+        i--;
+      }
+    }
+  }
 };
+
+/*
+ * Edge
+ */
+Graph.Edge = function DraculaEdge(opts) {
+  this.source = opts.source;
+  this.target = opts.target;
+  this.style = { directed: false };
+  if (opts.style) {
+    this.style = jQuery.extend(true, this.style, opts.style);
+  }
+};
+Graph.Edge.prototype = {
+  weight: 0,
+  hide: function hideEdge() {
+    this.connection.fg.hide();
+    this.connection.bg && this.bg.connection.hide();
+  }
+}
 
 /*
  * Node
  */
-Graph.Node = function(id, node){
+Graph.Node = function DraculaNode(id, node){
   node = node || {};
   node.id = id;
   node.edges = [];
@@ -132,7 +124,7 @@ Graph.Node.prototype = {
 };
 
 /*
- * Renderer base class
+ * Renderer Base Class
  */
 Graph.Renderer = {};
 
