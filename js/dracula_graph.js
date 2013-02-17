@@ -134,7 +134,6 @@ Graph.Renderer = {};
 Graph.Renderer.Raphael = function(element, graph, width, height) {
   this.width = width || 400;
   this.height = height || 400;
-  var selfRef = this;
   this.r = Raphael(element, this.width, this.height);
   this.radius = 40; /* max dimension of a node */
   this.graph = graph;
@@ -146,45 +145,6 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
       return;
     }
   }
-
-  /*
-   * Dragging
-   */
-  this.isDrag = false;
-  this.dragger = function (e) {
-    this.dx = e.clientX;
-    this.dy = e.clientY;
-    selfRef.isDrag = this;
-    this.set && this.set.animate({"fill-opacity": .1}, 200);
-    e.preventDefault && e.preventDefault();
-  };
-
-  var d = document.getElementById(element);
-  d.onmousemove = function (e) {
-    e = e || window.event;
-    if (selfRef.isDrag) {
-      var bBox = selfRef.isDrag.set.getBBox();
-      // TODO round the coordinates here (eg. for proper image representation)
-      var newX = e.clientX - selfRef.isDrag.dx + (bBox.x + bBox.width / 2);
-      var newY = e.clientY - selfRef.isDrag.dy + (bBox.y + bBox.height / 2);
-      /* prevent shapes from being dragged out of the canvas */
-      var clientX = e.clientX - (newX < 20 ? newX - 20 : newX > selfRef.width - 20 ? newX - selfRef.width + 20 : 0);
-      var clientY = e.clientY - (newY < 20 ? newY - 20 : newY > selfRef.height - 20 ? newY - selfRef.height + 20 : 0);
-      selfRef.isDrag.set.translate(clientX - Math.round(selfRef.isDrag.dx), clientY - Math.round(selfRef.isDrag.dy));
-      //            console.log(clientX - Math.round(selfRef.isDrag.dx), clientY - Math.round(selfRef.isDrag.dy));
-      for (var i in selfRef.graph.edges) {
-        selfRef.graph.edges[i] &&
-          selfRef.graph.edges[i].connection && selfRef.graph.edges[i].connection.draw();
-      }
-      //selfRef.r.safari();
-      selfRef.isDrag.dx = clientX;
-      selfRef.isDrag.dy = clientY;
-    }
-  };
-  d.onmouseup = function () {
-    selfRef.isDrag && selfRef.isDrag.set.animate({"fill-opacity": .6}, 500);
-    selfRef.isDrag = false;
-  };
   this.draw();
 };
 
@@ -192,101 +152,137 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
 /* Moved this default node renderer function out of the main prototype code
  * so it can be override by default */
 Graph.Renderer.defaultRenderFunc = function(r, node) {
-    /* the default node drawing */
-    var color = Raphael.getColor();
-    var ellipse = r.ellipse(0, 0, 30, 20).attr({fill: node.fill || color, stroke: node.stroke || color, "stroke-width": 2});
-    /* set DOM node ID */
-    ellipse.node.id = node.label || node.id;
-    shape = r.set().
-        push(ellipse).
-        push(r.text(0, 30, node.label || node.id));
-    return shape;
+  /* the default node drawing */
+  var color = Raphael.getColor();
+  var ellipse = r.ellipse(0, 0, 30, 20).attr({
+    fill: node.fill || color,
+    stroke: node.stroke || color,
+    "stroke-width": 2
+  });
+  /* set DOM node ID */
+  ellipse.node.id = node.label || node.id;
+  shape = r.set().push(ellipse).push(r.text(0, 30, node.label || node.id));
+  return shape;
 }
 
 
 Graph.Renderer.Raphael.prototype = {
-    translate: function(point) {
-        return [
-            (point[0] - this.graph.layoutMinX) * this.factorX + this.radius,
-            (point[1] - this.graph.layoutMinY) * this.factorY + this.radius
-        ];
-    },
+  translate: function(point) {
+    return [
+      (point[0] - this.graph.layoutMinX) * this.factorX + this.radius,
+      (point[1] - this.graph.layoutMinY) * this.factorY + this.radius
+    ];
+  },
 
-    rotate: function(point, length, angle) {
-        var dx = length * Math.cos(angle);
-        var dy = length * Math.sin(angle);
-        return [point[0]+dx, point[1]+dy];
-    },
+  rotate: function(point, length, angle) {
+    var dx = length * Math.cos(angle);
+    var dy = length * Math.sin(angle);
+    return [point[0]+dx, point[1]+dy];
+  },
 
-    draw: function() {
-        this.factorX = (this.width - 2 * this.radius) / (this.graph.layoutMaxX - this.graph.layoutMinX);
-        this.factorY = (this.height - 2 * this.radius) / (this.graph.layoutMaxY - this.graph.layoutMinY);
-        for (i in this.graph.nodes) {
-            this.drawNode(this.graph.nodes[i]);
-        }
-        for (var i = 0; i < this.graph.edges.length; i++) {
-            this.drawEdge(this.graph.edges[i]);
-        }
-    },
-
-    drawNode: function(node) {
-        var point = this.translate([node.layoutPosX, node.layoutPosY]);
-        node.point = point;
-
-        /* if node has already been drawn, move the nodes */
-        if(node.shape) {
-            var oBBox = node.shape.getBBox();
-            var opoint = { x: oBBox.x + oBBox.width / 2, y: oBBox.y + oBBox.height / 2};
-            node.shape.translate(Math.round(point[0] - opoint.x), Math.round(point[1] - opoint.y));
-            this.r.safari();
-            return node;
-        }/* else, draw new nodes */
-
-        var shape;
-
-        /* if a node renderer function is provided by the user, then use it
-           or the default render function instead */
-        if(!node.render) {
-            node.render = Graph.Renderer.defaultRenderFunc;
-        }
-        /* or check for an ajax representation of the nodes */
-        if(node.shapes) {
-            // TODO ajax representation evaluation
-        }
-
-        shape = node.render(this.r, node).hide();
-
-        shape.attr({"fill-opacity": .6});
-        /* re-reference to the node an element belongs to, needed for dragging all elements of a node */
-        shape.items.forEach(function(item){ item.set = shape; item.node.style.cursor = "move"; });
-        shape.mousedown(this.dragger);
-
-        var box = shape.getBBox();
-        shape.translate(Math.round(point[0]-(box.x+box.width/2)),Math.round(point[1]-(box.y+box.height/2)))
-        //console.log(box,point);
-        node.hidden || shape.show();
-        node.shape = shape;
-    },
-    drawEdge: function(edge) {
-        /* if this edge already exists the other way around and is undirected */
-        if(edge.backedge)
-            return;
-        if(edge.source.hidden || edge.target.hidden) {
-            edge.connection && edge.connection.fg.hide();
-            edge.connection.bg && edge.connection.bg.hide();
-            return;
-        }
-        /* if edge already has been drawn, only refresh the edge */
-        if(!edge.connection) {
-            edge.style && edge.style.callback && edge.style.callback(edge); // TODO move this somewhere else
-            edge.connection = this.r.connection(edge.source.shape, edge.target.shape, edge.style);
-            return;
-        }
-        //FIXME showing doesn't work well
-        edge.connection.fg.show();
-        edge.connection.bg && edge.connection.bg.show();
-        edge.connection.draw();
+  draw: function() {
+    this.factorX = (this.width - 2 * this.radius) / (this.graph.layoutMaxX - this.graph.layoutMinX);
+    this.factorY = (this.height - 2 * this.radius) / (this.graph.layoutMaxY - this.graph.layoutMinY);
+    for (i in this.graph.nodes) {
+      this.drawNode(this.graph.nodes[i]);
     }
+    for (var i = 0; i < this.graph.edges.length; i++) {
+      this.drawEdge(this.graph.edges[i]);
+    }
+  },
+
+  drawNode: function(node) {
+    var point = this.translate([node.layoutPosX, node.layoutPosY]);
+    node.point = point;
+    var r = this.r;
+    var graph = this.graph;
+
+    /* if node has already been drawn, move the nodes */
+    if(node.shape) {
+      var oBBox = node.shape.getBBox();
+      var opoint = { x: oBBox.x + oBBox.width / 2, y: oBBox.y + oBBox.height / 2};
+      node.shape.translate(Math.round(point[0] - opoint.x), Math.round(point[1] - opoint.y));
+      this.r.safari();
+      return node;
+    }/* else, draw new nodes */
+
+    var shape;
+
+    /* if a node renderer function is provided by the user, then use it
+       or the default render function instead */
+    if(!node.render) {
+      node.render = Graph.Renderer.defaultRenderFunc;
+    }
+    /* or check for an ajax representation of the nodes */
+    if(node.shapes) {
+      // TODO ajax representation evaluation
+    }
+
+    var selfRef = this;
+    shape = node.render(this.r, node).hide();
+
+    shape.attr({"fill-opacity": .6});
+    /* re-reference to the node an element belongs to, needed for dragging all elements of a node */
+    shape.items.forEach(function(item) {
+      item.set = shape;
+      item.node.style.cursor = "move";
+    });
+    shape.drag(
+      function dragMove(dx, dy, x, y) {
+        var dx = this.set.ox;
+        var dy = this.set.oy;
+        var bBox = this.set.getBBox();
+        var newX = x - dx + (bBox.x + bBox.width / 2);
+        var newY = y - dy + (bBox.y + bBox.height / 2);
+        var clientX =
+          x - (newX < 20 ? newX - 20 : newX > r.width - 20 ? newX - r.width + 20 : 0);
+        var clientY =
+          y - (newY < 20 ? newY - 20 : newY > r.height - 20 ? newY - r.height + 20 : 0);
+        this.set.translate(clientX - Math.round(dx), clientY - Math.round(dy));
+        for (var i in selfRef.graph.edges) {
+          selfRef.graph.edges[i] &&
+            selfRef.graph.edges[i].connection && selfRef.graph.edges[i].connection.draw();
+        }
+        r.safari();
+        this.set.ox = clientX;
+        this.set.oy = clientY;
+      },
+      function dragEnter(x, y) {
+        this.set.ox = x;
+        this.set.oy = y;
+        this.animate({"fill-opacity": .2}, 500);
+      },
+      function dragOut() {
+        this.animate({"fill-opacity": .6}, 500);
+      }
+    );
+
+    var box = shape.getBBox();
+    shape.translate(Math.round(point[0]-(box.x+box.width/2)),Math.round(point[1]-(box.y+box.height/2)))
+    //console.log(box,point);
+    node.hidden || shape.show();
+    node.shape = shape;
+  },
+  drawEdge: function(edge) {
+    /* if this edge already exists the other way around and is undirected */
+    if(edge.backedge)
+      return;
+    if(edge.source.hidden || edge.target.hidden) {
+      edge.connection && edge.connection.fg.hide();
+      edge.connection.bg && edge.connection.bg.hide();
+      return;
+    }
+    /* if edge already has been drawn, only refresh the edge */
+    if(!edge.connection) {
+      edge.style && edge.style.callback && edge.style.callback(edge); // TODO move this somewhere else
+      edge.connection = this.r.connection(edge.source.shape, edge.target.shape, edge.style);
+      return;
+    }
+    //FIXME showing doesn't work well
+    edge.connection.fg.show();
+    edge.connection.bg && edge.connection.bg.show();
+    edge.connection.draw();
+  }
 };
 Graph.Layout = {};
 Graph.Layout.Spring = function(graph) {

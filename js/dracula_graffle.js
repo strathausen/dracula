@@ -98,7 +98,8 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
           { x:(norm(x4-x3)-norm(y4-y3)+x4).toFixed(3),
             y:(norm(y4-y3)-norm(x4-x3)+y4).toFixed(3) }
         ];
-        path = path + ",M"+arr[0].x+","+arr[0].y+",L"+x4+","+y4+",L"+arr[1].x+","+arr[1].y;
+        path = path + ",M" + arr[0].x + "," + arr[0].y + ",L" + x4 + "," +
+          y4 + ",L" + arr[1].x + "," + arr[1].y;
       }
       /* function to be used for moving existent path(s), e.g. animate() or attr() */
       var move = "attr";
