@@ -20,33 +20,40 @@ window.onload = function() {
   /* add a node with a customized shape
      (the Raphael graph drawing implementation can draw this shape, please
      consult the RaphaelJS reference for details http://raphaeljs.com/) */
-  //    var render = function(r, n) {
-  //        var label = r.text(0, 30, n.label).attr({opacity:0});
-  /* the Raphael set is obligatory, containing all you want to display */
-  //        var set = r.set().push(
-  //            r.rect(-30, -13, 62, 86).attr({"fill": "#fa8", "stroke-width": 2, r : "9px"}))
-  //            .push(label);
-  /* make the label show only on hover */
-  //        set.hover(function(){ label.animate({opacity:1,"fill-opacity":1}, 500); }, function(){ label.animate({opacity:0},300); });
+  var render = function(r, n) {
+    var label = r.text(0, 30, n.label).attr({opacity:0});
+    //the Raphael set is obligatory, containing all you want to display 
+    var set = r.set().push(
+        r.rect(-30, -13, 62, 86).attr({"fill": "#fa8", "stroke-width": 2/*, r : "9px"*/}))
+      .push(label);
+      // make the label show only on hover 
+      set.hover(
+        function mouseIn() {
+          label.animate({opacity:1,"fill-opacity":1}, 500);
+        },
+        function mouseOut() {
+          label.animate({opacity:0},300);
+        }
+      );
 
-  //        tooltip = r.set()
-  //            .push(
-  //                r.rect(0, 0, 90, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})
-  //            ).push(
-  //                r.text(25, 15, "overlay").attr({"fill": "#000000"})
-  //            );
-  //        for(i in set.items) {
-  //            set.items[i].tooltip(tooltip);
-  //        };
-  //	//            set.tooltip(r.set().push(r.rect(0, 0, 30, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})).hide());
-  //        return set;
-  //    };
+      tooltip = r.set()
+      .push(
+        r.rect(0, 0, 90, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})
+      ).push(
+        r.text(25, 15, "overlay").attr({"fill": "#000000"})
+      );
+      for(i in set.items) {
+        set.items[i].tooltip(tooltip);
+      };
+      //            set.tooltip(r.set().push(r.rect(0, 0, 30, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})).hide());
+      return set;
+  };
 
   g.addNode("id35", {
-    label : "meat\nand\ngreed" //,
+    label : "meat\nand\ngreed",
     /* filling the shape with a color makes it easier to be dragged */
     /* arguments: r = Raphael object, n : node object */
-    //        render : render
+    render : render
   });
   //    g.addNode("Wheat", {
   /* filling the shape with a color makes it easier to be dragged */
