@@ -202,6 +202,18 @@ Graph.Renderer.Raphael.prototype = {
       var oBBox = node.shape.getBBox();
       var opoint = { x: oBBox.x + oBBox.width / 2, y: oBBox.y + oBBox.height / 2};
       node.shape.translate(Math.round(point[0] - opoint.x), Math.round(point[1] - opoint.y));
+
+      var nowX = Math.max(0 + oBBox.width / 2, point[0]);
+      var nowY = Math.max(0 + oBBox.height / 2, point[1]);
+      nowX = Math.min(this.width - oBBox.width/2, nowX);
+      nowY = Math.min(this.height - oBBox.height/2, nowY);
+
+      var tomoveX = nowX - opoint.x;
+      var tomoveY = nowY - opoint.y;
+
+      //node.shape.translate(Math.round(point[0] - opoint.x ), Math.round(point[1] - opoint.y));
+      node.shape.translate(Math.round(tomoveX ), Math.round(tomoveY));
+
       this.r.safari();
       return node;
     }/* else, draw new nodes */
@@ -485,7 +497,7 @@ Graph.Layout.OrderedTree.prototype = {
         this.layoutPrepare();
         this.layoutCalcBounds();
     },
-    
+
     layoutPrepare: function(order) {
         for (i in this.graph.nodes) {
             var node = this.graph.nodes[i];
@@ -496,29 +508,29 @@ Graph.Layout.OrderedTree.prototype = {
         //absolute number of levels we have. simple log math applies.
         var numNodes = this.order.length;
         var totalLevels = Math.floor(Math.log(numNodes) / Math.log(2));
-        
+
         var counter = 1;
         for (i in this.order) {
             var node = this.order[i];
-            //rank aka x coordinate 
+            //rank aka x coordinate
             var rank = Math.floor(Math.log(counter) / Math.log(2));
             //file relative to top
             var file = counter - Math.pow(rank, 2);
-            
+
             log('Node ' + node.id + '  #' + counter + ' is at rank ' + rank + ' file ' + file);
             node.layoutPosX = totalLevels - rank;
             node.layoutPosY = file;
             counter++;
         }
     },
-    
+
     layoutCalcBounds: function() {
         var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
 
         for (i in this.graph.nodes) {
             var x = this.graph.nodes[i].layoutPosX;
             var y = this.graph.nodes[i].layoutPosY;
-            
+
             if(x > maxx) maxx = x;
             if(x < minx) minx = x;
             if(y > maxy) maxy = y;
@@ -548,7 +560,7 @@ Graph.Layout.TournamentTree.prototype = {
         this.layoutPrepare();
         this.layoutCalcBounds();
     },
-    
+
     layoutPrepare: function(order) {
         for (i in this.graph.nodes) {
             var node = this.graph.nodes[i];
@@ -559,7 +571,7 @@ Graph.Layout.TournamentTree.prototype = {
         //absolute number of levels we have. simple log math applies.
         var numNodes = this.order.length;
         var totalLevels = Math.floor(Math.log(numNodes) / Math.log(2));
-        
+
         var counter = 1;
         for (i in this.order) {
             var node = this.order[i];
@@ -567,21 +579,21 @@ Graph.Layout.TournamentTree.prototype = {
             var xpos = counter - Math.pow(depth, 2);
             var offset = Math.pow(2, totalLevels - depth);
             var final_x = offset + (counter - Math.pow(2,depth)) * Math.pow(2,(totalLevels - depth)+1);
-            
+
             log('Node ' + node.id + '  #' + counter + ' is at depth ' + depth + ' offset ' + offset + ' final_x ' + final_x);
             node.layoutPosX = final_x;
             node.layoutPosY = depth;
             counter++;
         }
     },
-    
+
     layoutCalcBounds: function() {
         var minx = Infinity, maxx = -Infinity, miny = Infinity, maxy = -Infinity;
 
         for (i in this.graph.nodes) {
             var x = this.graph.nodes[i].layoutPosX;
             var y = this.graph.nodes[i].layoutPosY;
-            
+
             if(x > maxx) maxx = x;
             if(x < minx) minx = x;
             if(y > maxy) maxy = y;
