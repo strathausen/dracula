@@ -70,9 +70,12 @@ Graph.prototype = {
     //this.snapshots.push({comment: comment, graph: graph});
   },
   removeNode: function(id) {
+    this.nodes[id].shape.remove();
     delete this.nodes[id];
     for(var i = 0; i < this.edges.length; i++) {
       if (this.edges[i].source.id == id || this.edges[i].target.id == id) {
+        this.edges[i].connection.fg.remove();
+        this.edges[i].connection.label.remove();
         this.edges.splice(i, 1);
         i--;
       }
