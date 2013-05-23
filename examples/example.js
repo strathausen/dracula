@@ -24,7 +24,10 @@ window.onload = function() {
     var label = r.text(0, 30, n.label).attr({opacity:0});
     //the Raphael set is obligatory, containing all you want to display 
     var set = r.set().push(
-        r.rect(-30, -13, 62, 86).attr({"fill": "#fa8", "stroke-width": 2/*, r : "9px"*/}))
+        r.rect(-30, -13, 62, 86)
+          .attr({"fill": "#fa8",
+                "stroke-width": 2
+                , r : "9px"}))
       .push(label);
       // make the label show only on hover 
       set.hover(

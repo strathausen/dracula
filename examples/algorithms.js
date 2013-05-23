@@ -14,7 +14,7 @@ window.onload = function() {
   var render = function(r, n) {
     frame = r.rect(n.point[0] - 30, n.point[1] - 13, 60, 44);
     frame.attr({
-        'fill': '#feb'/*, r : '12px'*/,
+        'fill': '#feb', r : 12,
         'stroke-width' : (n.distance === 0 ? '3px' : '1px')
       });
     /* the Raphael set is obligatory, containing all you want to display */
@@ -40,12 +40,15 @@ window.onload = function() {
   }
 
   /* creating nodes and passing the new renderer function to overwrite the default one */
-  g.addNode('New York', { render : render }); // TODO add currying support for nicer code
-  g.addNode('Berlin'  , { render : render });
-  g.addNode('Tel Aviv', { render : render });
-  g.addNode('Tokyo'   , { render : render });
-  g.addNode('Roma'    , { render : render });
-  g.addNode('Madrid'  , { render : render });
+  function addNode(name) {
+    g.addNode(name, { render: render });
+  }
+  addNode('New York');
+  addNode('Berlin'  );
+  addNode('Tel Aviv');
+  addNode('Tokyo'   );
+  addNode('Roma'    );
+  addNode('Madrid'  );
 
   /* connections */
   g.addEdge("Tokyo"   , "Tel Aviv");
