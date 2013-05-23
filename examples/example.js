@@ -102,7 +102,7 @@ window.onload = function() {
   /* add an unknown node implicitly by adding an edge */
   g.addEdge("strawberry", "apple");
 
-  g.removeNode("1");
+  //g.removeNode("1");
 
   /* layout the graph using the Spring layout implementation */
   var layouter = new Graph.Layout.Spring(g);
