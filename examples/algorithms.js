@@ -67,7 +67,7 @@ window.onload = function() {
 
   /* random edge weights (our undirected graph is modelled as a bidirectional graph) */
   /*    for(e in g.edges)
-        if(g.edges[e].backedge != undefined) {
+        if(g.edges[e].backedge !== undefined) {
         g.edges[e].weight = Math.floor(Math.random()*10) + 1;
         g.edges[e].backedge.weight = g.edges[e].weight;
         }
