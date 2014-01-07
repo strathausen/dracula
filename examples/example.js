@@ -27,7 +27,7 @@ window.onload = function() {
         r.rect(-30, -13, 62, 86)
           .attr({"fill": "#fa8",
                 "stroke-width": 2
-                , r : "9px"}))
+                , r : 9 }))
       .push(label);
       // make the label show only on hover 
       set.hover(
@@ -41,7 +41,7 @@ window.onload = function() {
 
       tooltip = r.set()
       .push(
-        r.rect(0, 0, 90, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})
+        r.rect(0, 0, 90, 30).attr({"fill": "#fec", "stroke-width": 1, r : 9 })
       ).push(
         r.text(25, 15, "overlay").attr({"fill": "#000000"})
       );
@@ -102,7 +102,7 @@ window.onload = function() {
   /* add an unknown node implicitly by adding an edge */
   g.addEdge("strawberry", "apple");
 
-  g.removeNode("1");
+  //g.removeNode("1");
 
   /* layout the graph using the Spring layout implementation */
   var layouter = new Graph.Layout.Spring(g);
