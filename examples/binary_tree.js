@@ -9,13 +9,6 @@ Graph.Renderer.Raphael = function(element, graph, width, height) {
   this.radius = 40; /* max dimension of a node */
   this.graph = graph;
   this.mouse_in = false;
-
-  /* TODO default node rendering function */
-  if(!this.graph.render) {
-    this.graph.render = function() {
-      return;
-    }
-  }
   this.draw();
 };
 // Put it back ;)
@@ -28,7 +21,7 @@ var render = function(r, n) {
   var set = r.set().push(
     /* custom objects go here */
     r.rect(n.point[0]-30, n.point[1]-13, 50, 50)
-    .attr({"fill": "#fa8", "stroke-width": 2, r : "9px"}))
+    .attr({"fill": "#fa8", "stroke-width": 2, r: 9}))
     .push(r.text(n.point[0], n.point[1] + 15, n.id)
           .attr({"font-size":"20px"}));
           return set;
@@ -43,23 +36,22 @@ $(document).ready(function() {
   var width = $(document).width();
   var height = $(document).height();
   g = new Graph();
-  g.edgeFactory.template.style.directed = true;
-  g.addEdge(2, 1);
-  g.addEdge(3, 1);
-  g.addEdge(5, 2);
-  g.addEdge(4, 2);
-  g.addEdge(7, 3);
-  g.addEdge(6, 3);
-  g.addEdge(8, 4);
-  g.addEdge(9, 4);
-  g.addEdge(10, 5);
-  g.addEdge(11, 5);
-  g.addEdge(12, 6);
-  g.addEdge(13, 6);
-  g.addEdge(14, 7);
-  g.addEdge(15, 7);
+  g.addEdge( 2, 1, { directed: true });
+  g.addEdge( 3, 1, { directed: true });
+  g.addEdge( 5, 2, { directed: true });
+  g.addEdge( 4, 2, { directed: true });
+  g.addEdge( 7, 3, { directed: true });
+  g.addEdge( 6, 3, { directed: true });
+  g.addEdge( 8, 4, { directed: true });
+  g.addEdge( 9, 4, { directed: true });
+  g.addEdge(10, 5, { directed: true });
+  g.addEdge(11, 5, { directed: true });
+  g.addEdge(12, 6, { directed: true });
+  g.addEdge(13, 6, { directed: true });
+  g.addEdge(14, 7, { directed: true });
+  g.addEdge(15, 7, { directed: true });
 
-  var layouter = new Graph.Layout.TournamentTree(g, nodeid_sort(g));
+  var layouter = new Graph.Layout.TournamentTree(g, g.nodes);
 
   var renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
 });
