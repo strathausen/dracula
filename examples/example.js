@@ -1,4 +1,3 @@
-
 var redraw;
 
 /* only do all this when document has finished loading (needed for RaphaelJS) */
@@ -23,40 +22,40 @@ window.onload = function() {
   var render = function(r, n) {
     var label = r.text(0, 30, n.label).attr({opacity:0});
     //the Raphael set is obligatory, containing all you want to display 
-    var set = r.set().push(
-        r.rect(-30, -13, 62, 86)
-          .attr({"fill": "#fa8",
-                "stroke-width": 2
-                , r : 9 }))
+    var set = r.set()
+      .push(r.rect(-30, -13, 62, 86)
+        .attr({ fill: '#fa8', 'stroke-width': 2, r: 9 })
+      )
       .push(label);
-      // make the label show only on hover 
-      set.hover(
-        function mouseIn() {
-          label.animate({opacity:1,"fill-opacity":1}, 500);
-        },
-        function mouseOut() {
-          label.animate({opacity:0},300);
-        }
-      );
 
-      tooltip = r.set()
+    // make the label show only on hover 
+    set.hover(
+      function mouseIn() {
+        label.animate({ opacity: 1, 'fill-opacity': 1 }, 500);
+      },
+      function mouseOut() {
+        label.animate({opacity:0},300);
+      }
+    );
+
+    var tooltip = r.set()
       .push(
-        r.rect(0, 0, 90, 30).attr({"fill": "#fec", "stroke-width": 1, r : 9 })
+        r.rect(0, 0, 90, 30).attr({ fill: '#fec', 'stroke-width': 1, r: 9 })
       ).push(
-        r.text(25, 15, "overlay").attr({"fill": "#000000"})
+        r.text(25, 15, 'overlay').attr({ fill: '#000000' })
       );
-      for(i in set.items) {
-        set.items[i].tooltip(tooltip);
-      };
-      //            set.tooltip(r.set().push(r.rect(0, 0, 30, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})).hide());
-      return set;
+    for(var i in set.items) {
+      set.items[i].tooltip(tooltip);
+    }
+    //            set.tooltip(r.set().push(r.rect(0, 0, 30, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})).hide());
+    return set;
   };
 
-  g.addNode("id35", {
-    label : "meat\nand\ngreed",
+  g.addNode('id35', {
+    label: "meat\nand\ngreed",
     /* filling the shape with a color makes it easier to be dragged */
     /* arguments: r = Raphael object, n : node object */
-    render : render
+    render: render
   });
   //    g.addNode("Wheat", {
   /* filling the shape with a color makes it easier to be dragged */
@@ -77,30 +76,32 @@ window.onload = function() {
   //        overlay : "<b>Hello <a href=\"http://wikipedia.org/\">World!</a></b>"
   //    });
 
-  var st = { directed: true, label : "Label",
-    "label-style" : {
-      "font-size": 20
+  var st = {
+    directed: true,
+    label: 'Label',
+    'label-style' : {
+      'font-size': 20
     }
   };
-  g.addEdge("kiwi", "penguin", st);
+  g.addEdge('kiwi', 'penguin', st);
 
   /* connect nodes with edges */
-  g.addEdge("strawberry", "cherry", {directed: true});
-  g.addEdge("cherry", "apple");
-  g.addEdge("cherry", "apple")
-  g.addEdge("1", "id35");
-  g.addEdge("penguin", "id35");
-  g.addEdge("penguin", "apple");
-  g.addEdge("kiwi", "id35");
+  g.addEdge('strawberry', 'cherry', {directed: true});
+  g.addEdge('cherry', 'apple');
+  g.addEdge('cherry', 'apple');
+  g.addEdge('1', 'id35');
+  g.addEdge('penguin', 'id35');
+  g.addEdge('penguin', 'apple');
+  g.addEdge('kiwi', 'id35');
 
   /* a directed connection, using an arrow */
-  g.addEdge("1", "cherry", { directed : true } );
+  g.addEdge('1', 'cherry', { directed: true } );
 
   /* customize the colors of that edge */
-  g.addEdge("id35", "apple", { stroke : "#bfa" , fill : "#56f", label : "Meat-to-Apple" });
+  g.addEdge('id35', 'apple', { stroke: '#bfa' , fill: '#56f', label: 'Meat-to-Apple' });
 
   /* add an unknown node implicitly by adding an edge */
-  g.addEdge("strawberry", "apple");
+  g.addEdge('strawberry', 'apple');
 
   //g.removeNode("1");
 
@@ -121,6 +122,6 @@ window.onload = function() {
     g.nodes[id].show();
   };
   //    console.log(g.nodes["kiwi"]);
-  redraw();
+  //redraw();
 };
 
