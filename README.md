@@ -16,10 +16,10 @@ The code looks like this:
     
     g.addEdge('strawberry', 'cherry');
 
-    var layouter = new Graph.Layout.Spring();
+    var layouter = new Graph.Layout.Spring(g);
     layouter.layout();
 
-    var renderer = new Graph.Renderer.Raphael('#canvas', g, 400, 300);
+    var renderer = new Graph.Renderer.Raphael('canvas', g, 400, 300);
     renderer.draw();
 
 ## Contributors
