@@ -1,4 +1,3 @@
-[![build status](https://secure.travis-ci.org/strathausen/dracula.png)](http://travis-ci.org/strathausen/dracula)
 # Graph Dracula - a JavaScript Graph Library
 
 Graph Dracula is a set of tools to display and layout interactive graphs,
@@ -27,7 +26,7 @@ The code looks like this:
 Thanks to these people for contributing.
 
 - Grigory Kruglov https://twitter.com/#!/lunafiko https://github.com/grigoryk/dracula-js-fork
-- Johann Philipp Strathausen <strathausen-at-gmail-dot-com> http://www.strathausen.eu
+- Johann Philipp Strathausen <strathausen-at-gmail-dot-com> http://stratha.us
 - Dave Hoover <dave.hoover@gmail.com>
 - Aslak Hellesoy <aslak.hellesoy@gmail.com>
 
