@@ -21,6 +21,13 @@ The code looks like this:
     var renderer = new Graph.Renderer.Raphael('canvas', g, 400, 300);
     renderer.draw();
 
+## How To Develop
+
+```
+npm i
+npm start
+```
+
 ## Contributors
 
 Thanks to these people for contributing.
@@ -31,3 +38,5 @@ Thanks to these people for contributing.
 - Aslak Hellesoy <aslak.hellesoy@gmail.com>
 
 Have I forgot anybody? Write me! strathausen-at-gmail-dot-com
+
+
