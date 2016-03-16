@@ -4,6 +4,7 @@ import uuid from 'uuid'
 let isId = x => !!~['string', 'number'].indexOf(typeof x)
 let edges = Symbol('edges')
 let nodes = Symbol('nodes')
+let getNode = Symbol('getNode')
 
 /**
  * Graph Data Structure
@@ -24,8 +25,8 @@ export default class Dracula {
 
   /**
    * Add or update node
-   * @argument {string|number|object} id or node data
-   * @argument {object|} nodeData (optional)
+   * @param {string|number|object} id or node data
+   * @param {object|} nodeData (optional)
    * @returns {Dracula.Node} the new node
    */
   addNode(id, nodeData) {
@@ -43,9 +44,9 @@ export default class Dracula {
   }
 
   /**
-   * @argument {string|number|object} source node or ID
-   * @argument {string|number|object} target node or ID
-   * @argument {object|} (optional) edge data
+   * @param {string|number|object} source node or ID
+   * @param {string|number|object} target node or ID
+   * @param {object|} (optional) edge data, e.g. styles
    */
   addEdge(source, target, edgeData={}) {
     let sourceNode = this.addNode(source)
@@ -53,10 +54,12 @@ export default class Dracula {
     edgeData.source = sourceNode
     edgeData.target = targetNode
     this.edges.push(edgeData)
+    return edgeData
   }
 
   /**
-   * @argument {string|number|Node} node node or ID
+   * @param {string|number|Node} node node or ID
+   * @return {Node}
    */
   removeNode(node) {
     let id = isId(node) ? node : node.id
@@ -65,15 +68,47 @@ export default class Dracula {
     delete this[nodes][id]
     // Delete node from all the edges
     this[edges] = this[edges].filter(edge => (
-      edge.source !== node && this.edge.target !== node
+      edge.source !== node && edge.target !== node
     ))
   }
 
   removeEdge(source, target) {
+    this[edges] = this[edges].filter(edge => (
+      edge.source !== source && edge.target !== target
+    ))
   }
 
   toJSON() {
     return {nodes: this[nodes], edges: this[edges]}
+  }
+
+  [getNode](node) {
+    return this[nodes][node.id || node]
+  }
+
+}
+
+
+class Node {
+
+  constructor(opts) {
+    this.pos = opts.pos || [opts.x, opts.y]
+  }
+
+  get x() {
+    return this.pos[0]
+  }
+
+  get y() {
+    return this.pos[1]
+  }
+
+}
+
+class Edge {
+
+  constructor(opts) {
+    this.weight = opts.weight
   }
 
 }
