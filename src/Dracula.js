@@ -2,8 +2,8 @@ import uuid from 'uuid'
 
 // testing for string or number data type
 let isId = x => !!~['string', 'number'].indexOf(typeof x)
-let edges = Symbol('edges')
-let nodes = Symbol('nodes')
+let edges = 'edges'//Symbol('edges')
+let nodes = 'nodes'//Symbol('nodes')
 
 /**
  * Graph Data Structure
@@ -15,13 +15,14 @@ export default class Dracula {
     this[edges] = []
   }
 
-  get edges() {
-    return this[edges]
-  }
+  //get edges() {
+    //return this[edges]
+  //}
 
-  get nodes() {
-    return this[nodes]
-  }
+  //get nodes() {
+    //console.log('getting nodes')
+    //return this[nodes]
+  //}
 
   /**
    * Creator for the new haters :)

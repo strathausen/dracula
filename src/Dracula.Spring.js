@@ -1,3 +1,4 @@
+import _ from 'lodash'
 /**
  * TODO take ratio into account
  * TODO use integers
@@ -12,7 +13,6 @@ export default class Spring {
     this.k = 2
     this.c = 0.01
     this.maxVertexMovement = 0.5
-    this.positions = {}
     this.layout()
   }
 
@@ -29,22 +29,22 @@ export default class Spring {
   }
 
   layoutPrepare() {
-    this.graph.nodes.forEach(node => {
-      this.positions[node.id].layoutPosX = 0
-      this.positions[node.id].layoutPosY = 0
-      this.positions[node.id].layoutForceX = 0
-      this.positions[node.id].layoutForceY = 0
+    _.each(this.graph.nodes, node => {
+      node.layoutPosX = 0
+      node.layoutPosY = 0
+      node.layoutForceX = 0
+      node.layoutForceY = 0
     })
   }
 
   layoutIteration() {
     // Forces on nodes due to node-node repulsions
     let prev = []
-    this.graph.nodes.forEach(node1 => {
+    _.each(this.graph.nodes, node1 => {
       prev.forEach(node2 => {
         this.layoutRepulsive(node1, node2)
       })
-      prev.push(node2)
+      prev.push(node1)
     })
 
     // Forces on nodes due to edge attractions
@@ -53,9 +53,9 @@ export default class Spring {
     })
 
     // Move by the given force
-    this.graph.nodes.forEach(node => {
-      let xmove = this.c * this.positions[node.id].layoutForceX
-      let ymove = this.c * this.positions[node.id].layoutForceY
+    _.each(this.graph.nodes, node => {
+      let xmove = this.c * node.layoutForceX
+      let ymove = this.c * node.layoutForceY
 
       let max = this.maxVertexMovement
 
@@ -64,18 +64,18 @@ export default class Spring {
       if (ymove > max) ymove = max
       if (ymove < -max) ymove = -max
 
-      this.positions[node.id].layoutPosX += xmove
-      this.positions[node.id].layoutPosY += ymove
-      this.positions[node.id].layoutForceX = 0
-      this.positions[node.id].layoutForceY = 0
+      node.layoutPosX += xmove
+      node.layoutPosY += ymove
+      node.layoutForceX = 0
+      node.layoutForceY = 0
     })
   }
 
   layoutRepulsive(node1, node2) {
     if (typeof node1 == 'undefined' || typeof node2 == 'undefined')
       return
-    let dx = this.positions[node2.id].layoutPosX - this.positions[node1.id].layoutPosX
-    let dy = this.positions[node2.id].layoutPosY - this.positions[node1.id].layoutPosY
+    let dx = node2.layoutPosX - node1.layoutPosX
+    let dy = node2.layoutPosY - node1.layoutPosY
     let d2 = dx * dx + dy * dy
     if (d2 < 0.01) {
       dx = 0.1 * Math.random() + 0.1
@@ -85,10 +85,10 @@ export default class Spring {
     let d = Math.sqrt(d2)
     if (d < this.maxRepulsiveForceDistance) {
       let repulsiveForce = this.k * this.k / d
-      this.positions[node2.id].layoutForceX += repulsiveForce * dx / d
-      this.positions[node2.id].layoutForceY += repulsiveForce * dy / d
-      this.positions[node1.id].layoutForceX -= repulsiveForce * dx / d
-      this.positions[node1.id].layoutForceY -= repulsiveForce * dy / d
+      node2.layoutForceX += repulsiveForce * dx / d
+      node2.layoutForceY += repulsiveForce * dy / d
+      node1.layoutForceX -= repulsiveForce * dx / d
+      node1.layoutForceY -= repulsiveForce * dy / d
     }
   }
 
@@ -96,8 +96,8 @@ export default class Spring {
     let node1 = edge.source
     let node2 = edge.target
 
-    let dx = this.positions[node2.id].layoutPosX - this.positions[node1.id].layoutPosX
-    let dy = this.positions[node2.id].layoutPosY - this.positions[node1.id].layoutPosY
+    let dx = node2.layoutPosX - node1.layoutPosX
+    let dy = node2.layoutPosY - node1.layoutPosY
     let d2 = dx * dx + dy * dy
     if (d2 < 0.01) {
       dx = 0.1 * Math.random() + 0.1
@@ -113,10 +113,10 @@ export default class Spring {
     if (edge.attraction === undefined) edge.attraction = 1
     attractiveForce *= Math.log(edge.attraction) * 0.5 + 1
 
-    this.positions[node2.id].layoutForceX -= attractiveForce * dx / d
-    this.positions[node2.id].layoutForceY -= attractiveForce * dy / d
-    this.positions[node1.id].layoutForceX += attractiveForce * dx / d
-    this.positions[node1.id].layoutForceY += attractiveForce * dy / d
+    node2.layoutForceX -= attractiveForce * dx / d
+    node2.layoutForceY -= attractiveForce * dy / d
+    node1.layoutForceX += attractiveForce * dx / d
+    node1.layoutForceY += attractiveForce * dy / d
   }
 
   layoutCalcBounds() {
@@ -125,9 +125,9 @@ export default class Spring {
     let miny = Infinity
     let maxy = -Infinity
 
-    this.graph.nodes.forEach(node => {
-      let x = this.positions[node.id].layoutPosX
-      let y = this.positions[node.id].layoutPosY
+    _.each(this.graph.nodes, node => {
+      let x = node.layoutPosX
+      let y = node.layoutPosY
 
       if (x > maxx) maxx = x
       if (x < minx) minx = x
@@ -142,6 +142,7 @@ export default class Spring {
   }
 
   transformCoords() {
+    // TODO for drawing, the coordinates need to be transformed
   }
 
 }

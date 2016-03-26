@@ -1,7 +1,6 @@
 import Dracula from './Dracula'
 import assert from 'assert'
 
-
 describe('Dracula', () => {
 
   describe('#constructor', () => {
