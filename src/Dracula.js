@@ -4,7 +4,6 @@ import uuid from 'uuid'
 let isId = x => !!~['string', 'number'].indexOf(typeof x)
 let edges = Symbol('edges')
 let nodes = Symbol('nodes')
-let getNode = Symbol('getNode')
 
 /**
  * Graph Data Structure
@@ -16,8 +15,17 @@ export default class Dracula {
     this[edges] = []
   }
 
+  get edges() {
+    return this[edges]
+  }
+
+  get nodes() {
+    return this[nodes]
+  }
+
   /**
    * Creator for the new haters :)
+   * @returns {Dracula} a new graph instance
    */
   static create() {
     return new Dracula
@@ -27,7 +35,7 @@ export default class Dracula {
    * Add or update node
    * @param {string|number|object} id or node data
    * @param {object|} nodeData (optional)
-   * @returns {Dracula.Node} the new node
+   * @returns {Node} the new node
    */
   addNode(id, nodeData) {
     // shorthands
@@ -39,6 +47,7 @@ export default class Dracula {
     if (!nodeData.id) {
       nodeData.id = uuid()
     }
+    //nodeData.edges = []
     this[nodes][nodeData.id] = nodeData
     return nodeData
   }
@@ -47,13 +56,14 @@ export default class Dracula {
    * @param {string|number|object} source node or ID
    * @param {string|number|object} target node or ID
    * @param {object|} (optional) edge data, e.g. styles
+   * @returns {Edge}
    */
   addEdge(source, target, edgeData={}) {
     let sourceNode = this.addNode(source)
     let targetNode = this.addNode(target)
     edgeData.source = sourceNode
     edgeData.target = targetNode
-    this.edges.push(edgeData)
+    this[edges].push(edgeData)
     return edgeData
   }
 
@@ -70,45 +80,39 @@ export default class Dracula {
     this[edges] = this[edges].filter(edge => (
       edge.source !== node && edge.target !== node
     ))
+    return node
   }
 
+  /**
+   * Remove an edge by providing either two nodes (or ids) or the edge instance
+   * @param {string|number|Node|Edge} node edge, node or ID
+   * @param {string|number|Node} node node or ID
+   * @return {Edge}
+   */
   removeEdge(source, target) {
-    this[edges] = this[edges].filter(edge => (
-      edge.source !== source && edge.target !== target
-    ))
+    let found
+    // Fallback to only one parameter
+    if (!target) {
+      target = source.target
+      source = source.source
+    }
+    // Normalise node IDs
+    if (isId(source)) source = {id: source}
+    if (isId(target)) target = {id: target}
+    // Find and remove edge
+    this[edges] = this[edges].filter(edge => {
+      if (edge.source.id === source.id && edge.target.id === target.id) {
+        found = edge
+        return false
+      }
+      return true
+    })
+    // Return removed edge
+    return found
   }
 
   toJSON() {
     return {nodes: this[nodes], edges: this[edges]}
-  }
-
-  [getNode](node) {
-    return this[nodes][node.id || node]
-  }
-
-}
-
-
-class Node {
-
-  constructor(opts) {
-    this.pos = opts.pos || [opts.x, opts.y]
-  }
-
-  get x() {
-    return this.pos[0]
-  }
-
-  get y() {
-    return this.pos[1]
-  }
-
-}
-
-class Edge {
-
-  constructor(opts) {
-    this.weight = opts.weight
   }
 
 }
