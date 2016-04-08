@@ -1,9 +1,9 @@
 import uuid from 'uuid'
 
-// testing for string or number data type
+// Testing for string or number data type
 let isId = x => !!~['string', 'number'].indexOf(typeof x)
-let edges = 'edges'//Symbol('edges')
-let nodes = 'nodes'//Symbol('nodes')
+let edges = 'edges' // Symbol('edges')
+let nodes = 'nodes' // Symbol('nodes')
 
 /**
  * Graph Data Structure
@@ -14,15 +14,6 @@ export default class Dracula {
     this[nodes] = {}
     this[edges] = []
   }
-
-  //get edges() {
-    //return this[edges]
-  //}
-
-  //get nodes() {
-    //console.log('getting nodes')
-    //return this[nodes]
-  //}
 
   /**
    * Creator for the new haters :)
@@ -39,7 +30,7 @@ export default class Dracula {
    * @returns {Node} the new node
    */
   addNode(id, nodeData) {
-    // shorthands
+    // Node initialisation shorthands
     if (!nodeData) {
       nodeData = isId(id) ? {id} : id
     } else {
@@ -48,7 +39,6 @@ export default class Dracula {
     if (!nodeData.id) {
       nodeData.id = uuid()
     }
-    //nodeData.edges = []
     this[nodes][nodeData.id] = nodeData
     return nodeData
   }

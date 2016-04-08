@@ -1,13 +1,15 @@
-import _ from 'lodash'
+import Layout from './Layout'
+import each from 'lodash/collection/each'
+
 /**
  * TODO take ratio into account
  * TODO use integers
  * TODO have a max distancec and/or inverse proportional repulsion
  */
-export default class Spring {
+export default class Spring extends Layout {
 
   constructor(graph) {
-    this.graph = graph
+    super(graph)
     this.iterations = 500
     this.maxRepulsiveForceDistance = 6
     this.k = 2
@@ -29,7 +31,7 @@ export default class Spring {
   }
 
   layoutPrepare() {
-    _.each(this.graph.nodes, node => {
+    each(this.graph.nodes, node => {
       node.layoutPosX = 0
       node.layoutPosY = 0
       node.layoutForceX = 0
@@ -40,7 +42,7 @@ export default class Spring {
   layoutIteration() {
     // Forces on nodes due to node-node repulsions
     let prev = []
-    _.each(this.graph.nodes, node1 => {
+    each(this.graph.nodes, node1 => {
       prev.forEach(node2 => {
         this.layoutRepulsive(node1, node2)
       })
@@ -53,7 +55,7 @@ export default class Spring {
     })
 
     // Move by the given force
-    _.each(this.graph.nodes, node => {
+    each(this.graph.nodes, node => {
       let xmove = this.c * node.layoutForceX
       let ymove = this.c * node.layoutForceY
 
@@ -117,32 +119,6 @@ export default class Spring {
     node2.layoutForceY -= attractiveForce * dy / d
     node1.layoutForceX += attractiveForce * dx / d
     node1.layoutForceY += attractiveForce * dy / d
-  }
-
-  layoutCalcBounds() {
-    let minx = Infinity
-    let maxx = -Infinity
-    let miny = Infinity
-    let maxy = -Infinity
-
-    _.each(this.graph.nodes, node => {
-      let x = node.layoutPosX
-      let y = node.layoutPosY
-
-      if (x > maxx) maxx = x
-      if (x < minx) minx = x
-      if (y > maxy) maxy = y
-      if (y < miny) miny = y
-    })
-
-    this.layoutMinX = minx
-    this.layoutMaxX = maxx
-    this.layoutMinY = miny
-    this.layoutMaxY = maxy
-  }
-
-  transformCoords() {
-    // TODO for drawing, the coordinates need to be transformed
   }
 
 }
