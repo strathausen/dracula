@@ -5,7 +5,7 @@ describe('Dracula', () => {
 
   describe('#constructor', () => {
 
-    it('does exposes nodes and edges', () => {
+    it('exposes nodes and edges', () => {
       let graph = Dracula.create()
       assert.equal(Object.keys(graph).length, 2)
     })

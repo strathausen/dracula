@@ -1,4 +1,4 @@
-import each from 'lodash/collection/each'
+import {each} from 'lodash/collection'
 
 export default class Layout {
 

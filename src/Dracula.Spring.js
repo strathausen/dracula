@@ -1,10 +1,9 @@
 import Layout from './Layout'
-import each from 'lodash/collection/each'
+import {each} from 'lodash/collection'
 
 /**
  * TODO take ratio into account
- * TODO use integers
- * TODO have a max distancec and/or inverse proportional repulsion
+ * TODO use integers for speed
  */
 export default class Spring extends Layout {
 

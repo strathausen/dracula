@@ -1,5 +1,5 @@
 import Layout from './Layout'
-import each from 'lodash/collection/each'
+import {each} from 'lodash/collection'
 
 export default class TournamentTree extends Layout {
 
