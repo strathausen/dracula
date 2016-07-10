@@ -34,3 +34,7 @@
 ## done
 - write core
 - write spring layouter
+
+
+## inspiration
+- http://jasonpark.me/AlgorithmVisualizer/
