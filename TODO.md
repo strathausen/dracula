@@ -27,9 +27,11 @@
 - go for https://www.google.ca/search?q=beautify+json+quora&pws=0#pws=0&q=javascript+graph+quora etc.
 - look at these http://backlinko.com/google-ranking-factors
 - create a list of "xx best javascript graph libraries"
+  - compare by: contributors, activity, size, features, tests, packaging
 - make a YouTube video
 - https://www.codacy.com
 - https://gemnasium.com
+- automatted cross browser testing
 
 ## for later
 - more unit tests
