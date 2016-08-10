@@ -1,16 +1,17 @@
 # the roadmap to victory
 
-- port old contribution / license info
 - test with snap
+- write renderer for raphael/snapsvg
+- build with min + map + jscs / bundle / dist ...
+
+- port old contribution / license info
 - test with raphael
 - starter bootstrap simple build for classic js
 - es6 js boilerplate
 - ordered tree
 - tournament tree
-- write renderer for raphael/snapsvg
 - write renderer for savage.js
 - have a minimal version on microjs: draculite
-- build with min + map + jscs / bundle / dist ...
 - tutorial for usage with `npm` (also mention duo etc.)
 - tutorial for usage with cdn
 - publish for `duo` http://duojs.org
@@ -27,6 +28,8 @@
 - look at these http://backlinko.com/google-ranking-factors
 - create a list of "xx best javascript graph libraries"
 - make a YouTube video
+- https://www.codacy.com
+- https://gemnasium.com
 
 ## for later
 - more unit tests
