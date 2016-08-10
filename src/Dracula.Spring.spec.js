@@ -8,8 +8,8 @@ describe('Spring Layout', () => {
 
   it('should not crash', () => {
     graph = Dracula.create()
-    let edge = graph.addEdge('a', 'b')
-    let layout = new Spring(graph)
+    graph.addEdge('a', 'b')
+    Spring.create(graph)
   })
 
   it('have a distance between the nodes', () => {

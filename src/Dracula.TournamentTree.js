@@ -33,13 +33,12 @@ export default class TournamentTree extends Layout {
     let counter = 1
     this.order.forEach(node => {
       let depth = Math.floor(Math.log(counter) / Math.log(2))
-      let xpos = counter - Math.pow(depth, 2)
       let offset = Math.pow(2, totalLevels - depth)
       let final_x = offset + (counter - Math.pow(2, depth)) *
         Math.pow(2, (totalLevels - depth) + 1)
       node.layoutPosX = final_x
       node.layoutPosY = depth
-      counter++
+      counter++;
     })
   }
 

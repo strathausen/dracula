@@ -13,7 +13,7 @@ export default class OrderedTree extends Layout {
     this.layout()
   }
 
-  layoutPrepare(order) {
+  layoutPrepare() {
     // To reverse the order of rendering, we need to find out the
     // absolute number of levels we have. simple log math applies.
     let numNodes = this.order.length
