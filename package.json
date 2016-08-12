@@ -7,6 +7,7 @@
   "scripts": {
     "start": "babel watch src --out-file public/bundle.js",
     "build": "babel src -d dist",
+    "watch": "babel --watch src -d dist",
     "test": "mocha --compilers js:babel-register src/**/*.spec.js",
     "test-watch": "mocha --watch --compilers js:babel-register src/**/*.spec.js",
     "check": "eslint src/"
