@@ -1,5 +1,8 @@
 import {each} from 'lodash/collection'
 
+/**
+ * Base class for distributing nodes algorithms
+ */
 export default class Layout {
 
   constructor(graph) {
@@ -43,10 +46,6 @@ export default class Layout {
     this.graph.layoutMaxX = maxx
     this.graph.layoutMinY = miny
     this.graph.layoutMaxY = maxy
-  }
-
-  transformCoords(x, y, h, w) {
-    // TODO for drawing, the coordinates need to be transformed
   }
 
 }
