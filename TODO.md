@@ -4,6 +4,8 @@
 - write renderer for raphael/snapsvg
 - build with min + map + jscs / bundle / dist ...
 
+- React renderer
+- Angular renderer
 - port old contribution / license info
 - test with raphael
 - starter bootstrap simple build for classic js
