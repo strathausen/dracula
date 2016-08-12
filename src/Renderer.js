@@ -1,8 +1,5 @@
 import {each} from 'lodash/collection'
 
-// Fallback for missing jQuery
-let selector = typeof window !== 'undefined' && window.$ || (q => document.querySelector(q))
-
 /**
  * Base class for rendering nodes
  *
@@ -13,18 +10,19 @@ export default class Renderer {
   /**
    * @param {DomElement|String} element target dom element or querySelector
    * @param {Graph} graph Dracula Graph instance
-   * @param {number} width (optional) width of the canvas
-   * @param {number} height (optional) height of the canvas
+   * @param {number} width (optional) width of the canvas, default 400
+   * @param {number} height (optional) height of the canvas, default 300
    */
   constructor(element, graph, width, height) {
     this.graph = graph
     // Convert a query into a dom element
     if (typeof element === 'string') {
+      let selector = typeof $ !== 'undefined' ? $ : (q => document.querySelector(q))
       element = selector(element)
     }
     this.element = element
-    this.width = width
-    this.height = height
+    this.width = width || 400
+    this.height = height || 300
     this.radius = 40
   }
 
