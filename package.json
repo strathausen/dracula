@@ -10,7 +10,8 @@
     "watch": "babel --watch src -d dist",
     "test": "mocha --compilers js:babel-register src/**/*.spec.js",
     "test-watch": "mocha --watch --compilers js:babel-register src/**/*.spec.js",
-    "check": "eslint src/"
+    "check": "eslint src/",
+    "publish": "./scripts/publish.sh"
   },
   "keywords": [
     "dracula",
