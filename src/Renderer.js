@@ -37,8 +37,13 @@ export default class Renderer {
     this.factorY = (this.height - 2 * this.radius) /
                       (this.graph.layoutMaxY - this.graph.layoutMinY)
 
-    each(this.graph.nodes, node => this.drawNode(node))
-    each(this.graph.edges, edge => this.dawEdge(edge))
+    each(this.graph.nodes, node => {
+      node.point = this.translate([node.layoutPosX, node.layoutPosY])
+      this.drawNode(node)
+    })
+    each(this.graph.edges, edge => {
+      this.drawEdge(edge)
+    })
   }
 
   translate(point) {
