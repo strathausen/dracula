@@ -44,6 +44,13 @@ describe('Dracula', () => {
       assert.deepEqual(node, {foo: 'bar', id: '23'})
     })
 
+    it('do not replace existing nodes', () => {
+      let graph = Dracula.create()
+      let n1 = graph.addNode('a')
+      let n2 = graph.addNode('a')
+      assert.strictEqual(n1, n2)
+    })
+
   })
 
   describe('#removeNode', () => {
