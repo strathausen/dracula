@@ -73,8 +73,9 @@ export default class Spring extends Layout {
   }
 
   layoutRepulsive(node1, node2) {
-    if (typeof node1 == 'undefined' || typeof node2 == 'undefined')
+    if (!node1 || !node2) {
       return
+    }
     let dx = node2.layoutPosX - node1.layoutPosX
     let dy = node2.layoutPosY - node1.layoutPosY
     let d2 = dx * dx + dy * dy
@@ -111,7 +112,7 @@ export default class Spring extends Layout {
       d2 = d * d
     }
     let attractiveForce = (d2 - this.k * this.k) / this.k
-    if (edge.attraction === undefined) edge.attraction = 1
+    if (!edge.attraction) edge.attraction = 1
     attractiveForce *= Math.log(edge.attraction) * 0.5 + 1
 
     node2.layoutForceX -= attractiveForce * dx / d
