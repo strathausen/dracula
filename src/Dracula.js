@@ -24,10 +24,14 @@ export default class Dracula {
   }
 
   /**
-   * Add or update node
+   * Add node if it doesn't exist yet.
+   *
+   * This method does not update an existing node.
+   * If you want to update a node, just update the node object.
+   *
    * @param {string|number|object} id or node data
    * @param {object|} nodeData (optional)
-   * @returns {Node} the new node
+   * @returns {Node} the new or existing node
    */
   addNode(id, nodeData) {
     // Node initialisation shorthands
