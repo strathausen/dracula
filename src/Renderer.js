@@ -39,12 +39,10 @@ export default class Renderer {
 
     each(this.graph.nodes, node => {
       node.point = this.translate([node.layoutPosX, node.layoutPosY])
+      this.drawNode(node)
     })
     each(this.graph.edges, edge => {
       this.drawEdge(edge)
-    })
-    each(this.graph.nodes, node => {
-      this.drawNode(node)
     })
   }
 
