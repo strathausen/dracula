@@ -1,5 +1,5 @@
 import Raphael from 'raphael'
-import Renderer from './Renderer'
+import Renderer from './renderer'
 
 export default class RaphaelRenderer extends Renderer {
 

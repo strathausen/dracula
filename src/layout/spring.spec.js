@@ -1,5 +1,5 @@
-import Dracula from './Dracula'
-import Spring from './Dracula.Spring'
+import Dracula from '../dracula'
+import Spring from './spring'
 import assert from 'assert'
 
 describe('Spring Layout', () => {

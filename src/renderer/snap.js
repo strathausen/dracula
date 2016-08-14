@@ -1,5 +1,5 @@
+import Renderer from './renderer'
 import SnapSvg from 'snapsvg'
-import Renderer from './Renderer'
 
 export default class RaphaelRenderer extends Renderer {
 

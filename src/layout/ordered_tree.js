@@ -1,4 +1,4 @@
-import Layout from './Layout'
+import Layout from './layout'
 
 /**
  * OrderedTree is like Ordered but assumes there is one root

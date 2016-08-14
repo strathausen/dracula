@@ -61,4 +61,8 @@ export default class Renderer {
     throw new Error('not implemented')
   }
 
+  static render(...a) {
+    return new Renderer(...a)
+  }
+
 }

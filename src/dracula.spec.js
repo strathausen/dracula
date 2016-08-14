@@ -1,4 +1,4 @@
-import Dracula from './Dracula'
+import Dracula from './dracula'
 import assert from 'assert'
 
 describe('Dracula', () => {

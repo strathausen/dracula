@@ -1,5 +1,5 @@
+import Renderer from './renderer'
 import assert from 'assert'
-import Renderer from './Renderer'
 import sinon from 'sinon'
 
 let graphMock = {
@@ -24,8 +24,8 @@ describe('Renderer', () => {
       let origDoc = global.document
       let spyDoc = sinon.spy()
       // Document stub
-      global.document = { querySelector: spyDoc }
-      let renderer = new Renderer('#element', graphMock)
+      global.document = {querySelector: spyDoc}
+      Renderer.render('#element', graphMock)
       assert(spyDoc.calledOnce)
       global.document = origDoc
     })
@@ -35,7 +35,7 @@ describe('Renderer', () => {
       let spyJQ = sinon.spy()
       // jQuery stub
       global.$ = spyJQ
-      let renderer = new Renderer('#element', graphMock)
+      Renderer.render('#element', graphMock)
       assert(spyJQ.calledOnce)
       global.$ = origJQ
     })
@@ -48,7 +48,7 @@ describe('Renderer', () => {
       let spyJQ = sinon.spy()
 
 
-      let renderer = new Renderer(domEl, graphMock)
+      Renderer.render(domEl, graphMock)
 
       assert(!spyJQ.called)
       assert(!spyDoc.called)
@@ -58,7 +58,7 @@ describe('Renderer', () => {
     })
 
     it('set default width and height', () => {
-      let renderer = new Renderer(domEl, graphMock)
+      let renderer = Renderer.render(domEl, graphMock)
       assert.equal(renderer.width, 400)
       assert.equal(renderer.height, 300)
     })
@@ -66,7 +66,7 @@ describe('Renderer', () => {
   })
 
   describe('#draw', () => {
-    let renderer = new Renderer(domEl, graphMock)
+    let renderer = Renderer.render(domEl, graphMock)
     renderer.drawNode = sinon.spy()
     renderer.drawEdge = sinon.spy()
     renderer.draw()
@@ -86,7 +86,7 @@ describe('Renderer', () => {
   })
 
   describe('#translate', () => {
-    let renderer = new Renderer(domEl, graphMock)
+    Renderer.render(domEl, graphMock)
 
     it('scales coordinates into frame', () => {
       assert.deepEqual(graphMock.nodes[1].point, [136, 178])
