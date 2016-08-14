@@ -1,5 +1,14 @@
 {
-  "author": "Johann Philipp Strathausen",
+  "author": {
+    "name": "Johann Philipp Strathausen",
+    "email": "philipp@stratha.us",
+    "url": "http://stratha.us"
+  },
+  "contributors": [
+    "Aslak Hellesoy <aslak.hellesoy@gmail.com>",
+    "Dave Hoover <dave.hoover@gmail.com>",
+    "Grigory Kruglov (https://twitter.com/#!/lunafiko)"
+  ],
   "name": "graphdracula",
   "description": "JavaScript Graph Layouting and Drawing",
   "version": "1.0.0",
@@ -8,28 +17,38 @@
     "start": "babel watch src --out-file public/bundle.js",
     "build": "babel src -d dist",
     "watch": "babel --watch src -d dist",
-    "test": "mocha --compilers js:babel-register src/**/*.spec.js",
-    "test-watch": "mocha --watch --compilers js:babel-register src/**/*.spec.js",
+    "test": "mocha --compilers js:babel-register src/**/*.spec.js src/*.spec.js",
+    "test-watch": "mocha --watch --compilers js:babel-register src/**/*.spec.js src/*.spec.js",
     "check": "eslint src/",
+    "fix": "eslint --fix src/",
     "example-watch": "watchify -t babelify examples/basic/script.js --debug -v -o examples/basic/bundle.js",
     "publish": "./scripts/publish.sh"
   },
+  "license": "MIT",
+  "files": ["dist/*", "README.md"],
+  "main": "main.js",
+  "bugs": {
+    "email": "philipp@stratha.us",
+    "url": "https://github.com/strathausen/dracula/issues"
+  },
   "keywords": [
+    "bellman-ford",
+    "dijkstra",
     "dracula",
     "graph",
-    "svg",
     "math",
     "raphael",
-    "snapsvg",
-    "dijkstra",
-    "bellman-ford"
+    "snap",
+    "static",
+    "svg",
+    "vml"
   ],
   "repository": {
     "type": "git",
     "url": "git://github.com/strathausen/dracula.git"
   },
   "dependencies": {
-    "snapsvg": "^0.4.0",
+    "lodash": "^4.14.1",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
@@ -39,11 +58,11 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
     "eslint": "^3.2.2",
-    "lodash": "^4.14.1",
     "mocha": "~3.0.1",
     "randomcolor": "^0.4.4",
     "raphael": "^2.2.1",
     "sinon": "^1.17.5",
+    "snapsvg": "^0.4.0",
     "uglifyjs": "^2.4.10",
     "watchify": "^3.7.0"
   },

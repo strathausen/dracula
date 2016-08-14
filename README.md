@@ -12,7 +12,7 @@ Creating a graph is simple! You can also customise anything easily.
 The code looks like this:
 
     var g = new Graph();
-    
+
     g.addEdge('strawberry', 'cherry');
 
     var layouter = new Graph.Layout.Spring(g);
@@ -27,16 +27,3 @@ The code looks like this:
 npm i
 npm start
 ```
-
-## Contributors
-
-Thanks to these people for contributing.
-
-- Grigory Kruglov https://twitter.com/#!/lunafiko https://github.com/grigoryk/dracula-js-fork
-- Johann Philipp Strathausen <strathausen-at-gmail-dot-com> http://stratha.us
-- Dave Hoover <dave.hoover@gmail.com>
-- Aslak Hellesoy <aslak.hellesoy@gmail.com>
-
-Have I forgot anybody? Write me! strathausen-at-gmail-dot-com
-
-
