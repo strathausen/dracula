@@ -6,7 +6,6 @@
  */
 
 
-
 /*
         Bellman-Ford
 
@@ -25,44 +24,45 @@
 
  */
 function bellman_ford(g, source) {
-  var i, l;
+  let i, l;
 
   /* STEP 1: initialisation */
-  for(var n in g.nodes) {
+  for (let n in g.nodes) {
     g.nodes[n].distance = Infinity;
   }
+
   /* predecessors are implicitly zero */
   source.distance = 0;
 
-  step("Initially, all distances are infinite and all predecessors are null.");
+  step('Initially, all distances are infinite and all predecessors are null.');
 
   /* STEP 2: relax each edge (this is at the heart of Bellman-Ford) */
   /* repeat this for the number of nodes minus one */
-  for(i = 1, l = g.nodes.length; i < l; i++)
+  for (i = 1, l = g.nodes.length; i < l; i++)
+
     /* for each edge */
-    for(var e in g.edges) {
-      var edge = g.edges[e];
-      if(edge.source.distance + edge.weight < edge.target.distance) {
-        step("Relax edge between " + edge.source.id + " and " + edge.target.id + ".");
+    for (let e in g.edges) {
+      let edge = g.edges[e];
+      if (edge.source.distance + edge.weight < edge.target.distance) {
+        step('Relax edge between ' + edge.source.id + ' and ' + edge.target.id + '.');
         edge.target.distance = edge.source.distance + edge.weight;
         edge.target.predecessor = edge.source;
       }
       // Added by Jake Stothard (Needs to be tested)
-      //if(!edge.style.directed) {
-        //if(edge.target.distance + edge.weight < edge.source.distance) {
-          //g.snapShot("Relax edge between " + edge.target.id + " and " + edge.source.id + ".");
-          //edge.source.distance = edge.target.distance + edge.weight;
-          //edge.source.predecessor = edge.target;
-        //}
-      //}
+      // if(!edge.style.directed) {
+        // if(edge.target.distance + edge.weight < edge.source.distance) {
+          // g.snapShot("Relax edge between " + edge.target.id + " and " + edge.source.id + ".");
+          // edge.source.distance = edge.target.distance + edge.weight;
+          // edge.source.predecessor = edge.target;
+        // }
+      // }
     }
-  step("Ready.");
+  step('Ready.');
 
   /* STEP 3: TODO Check for negative cycles */
   /* For now we assume here that the graph does not contain any negative
      weights cycles. (this is left as an excercise to the reader[tm]) */
 }
-
 
 
 /*
@@ -75,41 +75,44 @@ function bellman_ford(g, source) {
 function dijkstra(g, source) {
 
   /* initially, all distances are infinite and all predecessors are null */
-  for(var n in g.nodes)
+  for (let n in g.nodes)
     g.nodes[n].distance = Infinity;
+
   /* predecessors are implicitly null */
 
-  g.snapShot("Initially, all distances are infinite and all predecessors are null.");
+  g.snapShot('Initially, all distances are infinite and all predecessors are null.');
 
   source.distance = 0;
+
   /* set of unoptimized nodes, sorted by their distance (but a Fibonacci heap
      would be better) */
-  var q = new BinaryMinHeap(g.nodes, "distance");
+  let q = new BinaryMinHeap(g.nodes, 'distance');
 
   /* pointer to the node in focus */
-  var node;
+  let node;
 
   /* get the node with the smallest distance
      as long as we have unoptimized nodes. q.min() can have O(log n). */
-  while(q.min() !== undefined) {
+  while (q.min() !== undefined) {
+
     /* remove the latest */
     node = q.extractMin();
     node.optimized = true;
 
     /* no nodes accessible from this one, should not happen */
-    if(node.distance === Infinity)
-      throw "Orphaned node!";
+    if (node.distance === Infinity)
+      throw 'Orphaned node!';
 
     /* for each neighbour of node */
     node.edges.forEach(function(e) {
-      var other = (node === e.target) ? e.source : e.target;
+      let other = (node === e.target) ? e.source : e.target;
 
-      if(other.optimized) {
+      if (other.optimized) {
         return;
       }
 
       /* look for an alternative route */
-      var alt = node.distance + e.weight;
+      let alt = node.distance + e.weight;
 
       /* update distance and route if a better one has been found */
       if (alt < other.distance) {
@@ -122,7 +125,7 @@ function dijkstra(g, source) {
 
         /* update path */
         other.predecessor = node;
-        g.snapShot("Enhancing node.");
+        g.snapShot('Enhancing node.');
       }
     });
   }
@@ -137,21 +140,21 @@ function dijkstra(g, source) {
 function floyd_warshall(g, source) {
 
   /* Step 1: initialising empty path matrix (second dimension is implicit) */
-  var path = [];
-  var next = [];
-  var n = g.nodes.length;
-  var i, j, k, e;
+  let path = [];
+  let next = [];
+  let n = g.nodes.length;
+  let i, j, k, e;
 
   /* construct path matrix, initialize with Infinity */
-  for(j in g.nodes) {
+  for (j in g.nodes) {
     path[j] = [];
     next[j] = [];
-    for(i in g.nodes)
+    for (i in g.nodes)
       path[j][i] = j === i ? 0 : Infinity;
   }
 
   /* initialize path with edge weights */
-  for(e in g.edges)
+  for (e in g.edges)
     path[g.edges[e].source.id][g.edges[e].target.id] = g.edges[e].weight;
 
   /* Note: Usually, the initialisation is done by getting the edge weights
@@ -159,11 +162,12 @@ function floyd_warshall(g, source) {
      a list of edges as done here. */
 
   /* Step 2: find best distances (the heart of Floyd-Warshall) */
-  for(k in g.nodes){
-    for(i in g.nodes) {
-      for(j in g.nodes)
-        if(path[i][j] > path[i][k] + path[k][j]) {
+  for (k in g.nodes) {
+    for (i in g.nodes) {
+      for (j in g.nodes)
+        if (path[i][j] > path[i][k] + path[k][j]) {
           path[i][j] = path[i][k] + path[k][j];
+
           /* Step 2.b: remember the path */
           next[i][j] = k;
         }
@@ -172,10 +176,10 @@ function floyd_warshall(g, source) {
 
   /* Step 3: Path reconstruction, get shortest path */
   function getPath(i, j) {
-    if(path[i][j] === Infinity)
-      throw "There is no path.";
-    var intermediate = next[i][j];
-    if(intermediate === undefined)
+    if (path[i][j] === Infinity)
+      throw 'There is no path.';
+    let intermediate = next[i][j];
+    if (intermediate === undefined)
       return null;
     else
       return getPath(i, intermediate)
@@ -270,22 +274,24 @@ function edmonds_karp(g, s, t) {
 function BinaryMinHeap(array, key) {
 
   /* Binary tree stored in an array, no need for a complicated data structure */
-  var tree = [];
+  let tree = [];
 
   key = key || 'key';
 
   /* Calculate the index of the parent or a child */
-  var parent = function(index) { return Math.floor((index - 1)/2); };
-  var right = function(index) { return 2 * index + 2; };
-  var left = function(index) { return 2 * index + 1; };
+  let parent = function(index) { return Math.floor((index - 1)/2); };
+  let right = function(index) { return 2 * index + 2; };
+  let left = function(index) { return 2 * index + 1; };
 
   /* Helper function to swap elements with their parent
      as long as the parent is bigger */
   function bubble_up(i) {
-    var p = parent(i);
-    while((p >= 0) && (tree[i][key] < tree[p][key])) {
+    let p = parent(i);
+    while ((p >= 0) && (tree[i][key] < tree[p][key])) {
+
       /* swap with parent */
       tree[i] = tree.splice(p, 1, tree[i])[0];
+
       /* go up one level */
       i = p;
       p = parent(i);
@@ -295,14 +301,14 @@ function BinaryMinHeap(array, key) {
   /* Helper function to swap elements with the smaller of their children
      as long as there is one */
   function bubble_down(i) {
-    var l = left(i);
-    var r = right(i);
+    let l = left(i);
+    let r = right(i);
 
     /* as long as there are smaller children */
-    while(tree[l] && (tree[i][key] > tree[l][key]) || tree[r] && (tree[i][key] > tree[r][key])) {
+    while (tree[l] && (tree[i][key] > tree[l][key]) || tree[r] && (tree[i][key] > tree[r][key])) {
 
       /* find smaller child */
-      var child = tree[l] ? tree[r] ? tree[l][key] > tree[r][key] ? r : l : l : l;
+      let child = tree[l] ? tree[r] ? tree[l][key] > tree[r][key] ? r : l : l : l;
 
       /* swap with smaller child with current element */
       tree[i] = tree.splice(child, 1, tree[i])[0];
@@ -321,7 +327,7 @@ function BinaryMinHeap(array, key) {
 
     /* make sure there's a key property */
     if (element[key] === undefined) {
-      element = { key: element };
+      element = {key: element};
     }
 
     /* insert element at the end */
@@ -343,7 +349,7 @@ function BinaryMinHeap(array, key) {
           smaller child and then check again from there (bubble down)
     */
     this.extractMin = function() {
-        var result = this.min();
+        let result = this.min();
 
         /* move the last element to the root or empty the tree completely */
         /* bubble down the new root if necessary */
@@ -359,23 +365,22 @@ function BinaryMinHeap(array, key) {
 
     /* currently unused, TODO implement */
     this.changeKey = function(index, key) {
-        throw "function not implemented";
+        throw 'function not implemented';
     };
 
     this.heapify = function() {
-      var start;
-      for(start = Math.floor((tree.length - 2) / 2); start >= 0; start--) {
+      let start;
+      for (start = Math.floor((tree.length - 2) / 2); start >= 0; start--) {
         bubble_down(start);
       }
     };
 
     /* insert the input elements one by one only when we don't have a key property (TODO can be done more elegant) */
-    var i;
-    for(i in (array || [])) {
+    let i;
+    for (i in (array || [])) {
       this.insert(array[i]);
     }
 }
-
 
 
 /*
@@ -390,12 +395,14 @@ function BinaryMinHeap(array, key) {
     TODO: This could be implemented more efficiently by using only one array object and several pointers.
 */
 function quickSort(arr) {
+
   /* recursion anchor: one element is always sorted */
-  if(arr.length <= 1) return arr;
+  if (arr.length <= 1) return arr;
+
   /* randomly selecting some value */
-  var median = arr[Math.floor(Math.random() * arr.length)];
-  var arr1 = [], arr2 = [], arr3 = [], i;
-  for(i in arr) {
+  let median = arr[Math.floor(Math.random() * arr.length)];
+  let arr1 = [], arr2 = [], arr3 = [], i;
+  for (i in arr) {
     if (arr[i] < median) {
       arr1.push(arr[i]);
     }
@@ -406,6 +413,7 @@ function quickSort(arr) {
       arr3.push(arr[i]);
     }
   }
+
   /* recursive sorting and assembling final result */
   return quickSort(arr1).concat(arr2).concat(quickSort(arr3));
 }
@@ -418,18 +426,21 @@ function quickSort(arr) {
    4. An array with only one element is already sorted
    */
 function selectionSort(arr) {
+
   /* recursion anchor: one element is always sorted */
-  if(arr.length === 1) return arr;
-  var minimum = Infinity;
-  var index;
-  for(var i in arr) {
-    if(arr[i] < minimum) {
+  if (arr.length === 1) return arr;
+  let minimum = Infinity;
+  let index;
+  for (let i in arr) {
+    if (arr[i] < minimum) {
       minimum = arr[i];
       index = i; /* remember the minimum index for later removal */
     }
   }
+
   /* remove the minimum */
   arr.splice(index, 1);
+
   /* assemble result and sort recursively (could be easily done iteratively as well)*/
   return [minimum].concat(selectionSort(arr));
 }
@@ -443,14 +454,19 @@ function selectionSort(arr) {
 
 */
 function mergeSort(arr) {
+
   /* merges two sorted arrays into one sorted array */
   function merge(a, b) {
+
     /* result set */
-    var c = [];
+    let c = [];
+
     /* as long as there are elements in the arrays to be merged */
-    while(a.length > 0 || b.length > 0){
+    while (a.length > 0 || b.length > 0) {
+
       /* are there elements to be merged, if yes, compare them and merge */
-      var n = a.length > 0 && b.length > 0 ? a[0] < b[0] ? a.shift() : b.shift() : b.length > 0 ? b.shift() : a.length > 0 ? a.shift() : null;
+      let n = a.length > 0 && b.length > 0 ? a[0] < b[0] ? a.shift() : b.shift() : b.length > 0 ? b.shift() : a.length > 0 ? a.shift() : null;
+
       /* always push the smaller one onto the result set */
       if (n !== null) {
         c.push(n);
@@ -458,10 +474,11 @@ function mergeSort(arr) {
     }
     return c;
   }
+
   /* this mergeSort implementation cuts the array in half, wich should be fine with randomized arrays, but introduces the risk of a worst-case scenario */
   median = Math.floor(arr.length / 2);
-  var part1 = arr.slice(0, median); /* for some reason it doesn't work if inserted directly in the return statement (tried so with firefox) */
-  var part2 = arr.slice(median - arr.length);
+  let part1 = arr.slice(0, median); /* for some reason it doesn't work if inserted directly in the return statement (tried so with firefox) */
+  let part2 = arr.slice(median - arr.length);
   return arr.length <= 1 ? arr : merge(
       mergeSort(part1), /* first half */
       mergeSort(part2) /* second half */
@@ -495,10 +512,11 @@ function kmp(p, t) {
    * @result array of skippable iterations
    */
   function prefix(p) {
+
     /* pi contains the computed skip marks */
-    var pi = [0], k = 0;
-    for(q = 1; q < p.length; q++) {
-      while(k > 0 && (p.charAt(k) !== p.charAt(q)))
+    let pi = [0], k = 0;
+    for (q = 1; q < p.length; q++) {
+      while (k > 0 && (p.charAt(k) !== p.charAt(q)))
         k = pi[k-1];
 
       if (p.charAt(k) === p.charAt(q)) {
@@ -512,11 +530,12 @@ function kmp(p, t) {
 
   /* The actual KMP algorithm starts here. */
 
-  var pi = prefix(p), q = 0, result = [];
+  let pi = prefix(p), q = 0, result = [];
 
-  for(var i = 0; i < t.length; i++) {
+  for (let i = 0; i < t.length; i++) {
+
     /* jump forward as long as the character doesn't match */
-    while((q > 0) && (p.charAt(q) !== t.charAt(i)))
+    while ((q > 0) && (p.charAt(q) !== t.charAt(i)))
       q = pi[q];
 
     if (p.charAt(q) === t.charAt(i)) {
@@ -534,8 +553,8 @@ function kmp(p, t) {
 
 /* step for algorithm visualisation */
 function step(comment, funct) {
-  //wait for input
-  //display comment (before or after waiting)
+  // wait for input
+  // display comment (before or after waiting)
   //    next.wait();
   /* execute callback function */
   funct();
@@ -547,7 +566,7 @@ function step(comment, funct) {
  * @returns {Array}
  */
 function topologicalSort(graph) {
-    var processed = [],
+    let processed = [],
         unprocessed = [],
         queue = [];
 
@@ -557,17 +576,17 @@ function topologicalSort(graph) {
      * @param callback
      * @this {Object}
      */
-    function each(arr, callback){
-        var i;
+    function each(arr, callback) {
+        let i;
 
-        //if Array, then process as array
+        // if Array, then process as array
         if (arr instanceof Array) {
             for (i = 0; i < arr.length; i++) {
                 callback.call(arr[i], i);
             }
         }
 
-        //if object, iterate over property/keys
+        // if object, iterate over property/keys
         else {
             for (i in arr) if (arr.hasOwnProperty(i)) {
                 callback.call(arr[i], i);
@@ -576,26 +595,26 @@ function topologicalSort(graph) {
     }
 
 
-    function processStartingPoint(node){
-        if(node === undefined){
-            throw "You have a cycle!!";
+    function processStartingPoint(node) {
+        if (node === undefined) {
+            throw 'You have a cycle!!';
         }
-        each(node.edges, function(){
+        each(node.edges, function() {
             node.sortImportance--;
         });
         processed.push(node);
     }
 
 
-    function populateIndegreesAndUnprocessed(){
+    function populateIndegreesAndUnprocessed() {
         each(graph.nodes, function() {
-            var node = this;
+            let node = this;
             unprocessed.push(this);
-            if(!node.hasOwnProperty('sortImportance')){
+            if (!node.hasOwnProperty('sortImportance')) {
                 node.sortImportance = 0;
             }
 
-            each(node.edges, function(){
+            each(node.edges, function() {
                 node.sortImportance++;
             });
         });
@@ -604,12 +623,12 @@ function topologicalSort(graph) {
     populateIndegreesAndUnprocessed();
 
     while (unprocessed.length > 0) {
-        for (var i = 0; i < unprocessed.length; i++) {
-            var node = unprocessed[i];
+        for (let i = 0; i < unprocessed.length; i++) {
+            let node = unprocessed[i];
             if (node.sortImportance === 0) {
                 queue.push(node);
-                unprocessed.splice(i, 1); //Remove this node, its all done.
-                i--;//decrement i since we just removed that index from the iterated list;
+                unprocessed.splice(i, 1); // Remove this node, its all done.
+                i--;// decrement i since we just removed that index from the iterated list;
             } else {
                 node.sortImportance--;
             }
