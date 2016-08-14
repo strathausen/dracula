@@ -1,20 +1,48 @@
-/**
- * Originally grabbed from the official RaphaelJS Documentation
- * http://raphaeljs.com/graffle.html
- * Adopted (arrows) and commented by Philipp Strathausen http://stratha.us
- * Licenced under the MIT licence.
- */
+import Raphael from 'raphael'
+import Renderer from './Renderer'
 
-/**
- * Usage:
- * connect two shapes
- * parameters:
- *      source shape [or connection for redrawing],
- *      target shape,
- *      style with { fg : linecolor, bg : background color, directed: boolean }
- * returns:
- *      connection { draw = function() }
- */
+export default class RaphaelRenderer extends Renderer {
+
+  constructor(element, graph, width, height) {
+    super(element, graph, width, height)
+    this.canvas = Raphael(this.element, this.width, this.height)
+    this.lineStyle = {
+      stroke: '#443399',
+      'stroke-width': '2px'
+    }
+  }
+
+  drawNode(node) {
+    let color = Raphael.getColor()
+    // TODO update / cache shape
+    node.shape = this.canvas.set()
+    node.shape.connections = []
+    node.shape
+      .push(this.canvas.ellipse(0, 0, 30, 20)
+        .attr({
+          stroke: color, 'stroke-width': 2, fill: color, 'fill-opacity': 0
+        })
+      )
+      .push(this.canvas.text(0, 30, node.label || node.id))
+      .translate(node.point[0], node.point[1])
+      //.drag(move, dragger, up)
+    dragify(node.shape)
+
+  }
+
+  drawEdge(edge) {
+    if (!edge.shape) {
+      let p1 = edge.source.point
+      let p2 = edge.target.point
+      edge.shape = this.canvas.connection(edge.source.shape, edge.target.shape)
+      //edge.shape.line.attr(this.lineStyle)
+      edge.source.shape.connections.push(edge.shape)
+      edge.target.shape.connections.push(edge.shape)
+    }
+  }
+
+}
+
 Raphael.fn.connection = function Connection(obj1, obj2, style) {
   var selfRef = this;
   /* create and return new connection */
@@ -126,3 +154,41 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
   edge.draw();
   return edge;
 };
+
+let dragify = (shape) => {
+  let r = shape.paper
+  shape.items.forEach(function(item) {
+    item.set = shape;
+    if (item.type === "text") {
+      return
+    }
+    item.node.style.cursor = "move";
+    item.drag(
+        function dragMove(dx, dy, x, y) {
+          dx = this.set.ox;
+          dy = this.set.oy;
+          var bBox = this.set.getBBox();
+          var newX = x - dx + (bBox.x + bBox.width / 2);
+          var newY = y - dy + (bBox.y + bBox.height / 2);
+          var clientX =
+            x - (newX < 20 ? newX - 20 : newX > r.width - 20 ? newX - r.width + 20 : 0);
+          var clientY =
+            y - (newY < 20 ? newY - 20 : newY > r.height - 20 ? newY - r.height + 20 : 0);
+          this.set.translate(clientX - Math.round(dx), clientY - Math.round(dy));
+          shape.connections.forEach(connection => { connection.draw() })
+
+          //r.safari();
+          this.set.ox = clientX;
+          this.set.oy = clientY;
+        },
+        function dragEnter(x, y) {
+          this.set.ox = x;
+          this.set.oy = y;
+          this.animate({ 'fill-opacity': 0.2 }, 500);
+        },
+        function dragOut() {
+          this.animate({ 'fill-opacity': 0.6 }, 500);
+        }
+    );
+  })
+}
