@@ -6,6 +6,7 @@ module.exports = {
     },
     "globals": {
         "it": true,
+        "$": true,
         "describe": true
     },
     "extends": "eslint:recommended",
@@ -59,7 +60,6 @@ module.exports = {
         "consistent-this": "error",
         "curly": "off",
         "default-case": "error",
-        "dot-location": "error",
         "dot-notation": "error",
         "eol-last": "error",
         "eqeqeq": [
@@ -102,7 +102,6 @@ module.exports = {
         "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-ternary": "off",
-        "new-cap": "error",
         "new-parens": "off",
         "newline-after-var": "off",
         "newline-before-return": "off",
@@ -128,7 +127,6 @@ module.exports = {
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
         "no-inline-comments": "off",
-        "no-invalid-this": "error",
         "no-iterator": "error",
         "no-label-var": "error",
         "no-labels": "error",
@@ -142,7 +140,6 @@ module.exports = {
         "no-multi-str": "error",
         "no-multiple-empty-lines": "error",
         "no-negated-condition": "off",
-        "no-nested-ternary": "error",
         "no-new": "error",
         "no-new-func": "error",
         "no-new-object": "error",

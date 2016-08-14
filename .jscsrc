@@ -1,9 +1,0 @@
-{
-	"preset": "node-style-guide",
-	"disallowSpaceAfterObjectKeys": null,
-	"requireTrailingComma": null,
-	"maximumLineLength": 800,
-	"requireCamelCaseOrUpperCaseIdentifiers": false,
-	"disallowFunctionDeclarations": true,
-	"requireCurlyBraces": [ ]
-}
