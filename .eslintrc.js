@@ -57,7 +57,7 @@ module.exports = {
             "never"
         ],
         "consistent-return": "error",
-        "consistent-this": "error",
+        "consistent-this": ["error", "self"],
         "curly": "off",
         "default-case": "error",
         "dot-notation": "error",
@@ -66,7 +66,6 @@ module.exports = {
             "error",
             "smart"
         ],
-        "func-names": "error",
         "func-style": [
             "error",
             "expression"
@@ -105,7 +104,6 @@ module.exports = {
         "new-parens": "off",
         "newline-after-var": "off",
         "newline-before-return": "off",
-        "newline-per-chained-call": "error",
         "no-alert": "error",
         "no-array-constructor": "error",
         "no-bitwise": "off",
