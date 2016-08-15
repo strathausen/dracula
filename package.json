@@ -21,8 +21,7 @@
     "test-watch": "mocha --watch --compilers js:babel-register src/**/*.spec.js src/*.spec.js",
     "check": "eslint src/",
     "fix": "eslint --fix src/",
-    "example-watch": "watchify -t babelify examples/basic/script.js --debug -v -o examples/basic/bundle.js",
-    "publish": "./scripts/publish.sh"
+    "example-watch": "watchify -t babelify examples/basic/script.js --debug -v -o examples/basic/bundle.js"
   },
   "license": "MIT",
   "files": [
