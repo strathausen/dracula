@@ -11,7 +11,7 @@
   ],
   "name": "graphdracula",
   "description": "JavaScript Graph Layouting and Drawing",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "homepage": "http://www.graphdracula.net",
   "scripts": {
     "start": "babel watch src --out-file public/bundle.js",
@@ -25,7 +25,10 @@
     "publish": "./scripts/publish.sh"
   },
   "license": "MIT",
-  "files": ["dist/*", "README.md"],
+  "files": [
+    "dist/*",
+    "README.md"
+  ],
   "main": "main.js",
   "bugs": {
     "email": "philipp@stratha.us",
