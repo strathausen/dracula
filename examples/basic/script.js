@@ -12,9 +12,6 @@ g.addEdge('Banana', 'Mushroom')
 
 const layouter = new Layouter(g)
 
-console.log(g)
-console.log(layouter)
-
 const renderer = new Renderer('#canvas', g)
 
 renderer.draw()
