@@ -18,7 +18,7 @@ module.exports.Layout = {
   TournamentTree: tournamentTree
 }
 
-module.renderer = {
+module.exports.Renderer = {
   Raphael: raphael,
   Snap: snap
 }
