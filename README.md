@@ -1,9 +1,11 @@
 # Graph Dracula - a JavaScript Graph Library
 
+[![Build Status](https://travis-ci.org/strathausen/dracula.svg?branch=master)](https://travis-ci.org/strathausen/dracula)
+
 Graph Dracula is a set of tools to display and layout interactive graphs,
 along with various related algorithms.
 
-No Flash, no Java, no plug-ins. Just plain JavaScript and SVG.
+Based on JavaScript and SVG.
 
 The code is released under the MIT license, so commercial use is not a problem.
 
