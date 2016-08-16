@@ -1,16 +1,15 @@
 // Core
-var dracula = require('./dist/dracula')
+var dracula = require('./dist/dracula').default
 
 // Layouts
-var spring = require('./dist/layout/spring')
-var orderedTree = require('./dist/layout/ordered_tree')
-var tournamentTree = require('./dist/layout/tournament_tree')
+var spring = require('./dist/layout/spring').default
+var orderedTree = require('./dist/layout/ordered_tree').default
+var tournamentTree = require('./dist/layout/tournament_tree').default
 
 // Renderers
-var raphael = require('./dist/renderer/raphael')
-var snap = require('./dist/renderer/snap')
+var raphael = require('./dist/renderer/raphael').default
 
-module.exports = dracula
+module.exports.Graph = dracula
 
 module.exports.Layout = {
   OrderedTree: orderedTree,
@@ -20,5 +19,4 @@ module.exports.Layout = {
 
 module.exports.Renderer = {
   Raphael: raphael,
-  Snap: snap
 }
