@@ -98,7 +98,7 @@ let getConnectionPoints = (obj1, obj2) => {
     /* SOUTH 1 */
     {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + off1},
 
-    /* WEST */
+    /* WEST  1 */
     {x: bb1.x - off1, y: bb1.y + bb1.height / 2},
 
     /* EAST  1 */
