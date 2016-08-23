@@ -28,6 +28,8 @@
   },
   "license": "MIT",
   "files": [
+    "index.js",
+    "lib/*",
     "dist/*",
     "README.md"
   ],
