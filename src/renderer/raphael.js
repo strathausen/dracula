@@ -1,5 +1,8 @@
-import Raphael from 'raphael'
+import ImportedRaphael from 'raphael'
 import Renderer from './renderer'
+
+// Is not bundled for the standalone browser version (e.g. for CDN)
+const Raphael = typeof window !== 'undefined' && window.Raphael || ImportedRaphael
 
 let dragify = shape => {
   let r = shape.paper
@@ -36,7 +39,7 @@ let dragify = shape => {
         function dragOut() {
           this.animate({'fill-opacity': 0.6}, 500);
         }
-    );
+    )
   })
 }
 

@@ -22,6 +22,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Is not bundled for the standalone browser version (e.g. for CDN)
+var Raphael = typeof window !== 'undefined' && window.Raphael || _raphael2.default;
+
 var dragify = function dragify(shape) {
   var r = shape.paper;
   shape.items.forEach(function (item) {
@@ -63,7 +66,7 @@ var RaphaelRenderer = function (_Renderer) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RaphaelRenderer).call(this, element, graph, width, height));
 
-    _this.canvas = (0, _raphael2.default)(_this.element, _this.width, _this.height);
+    _this.canvas = Raphael(_this.element, _this.width, _this.height);
     _this.lineStyle = {
       stroke: '#443399',
       'stroke-width': '2px'
@@ -74,7 +77,7 @@ var RaphaelRenderer = function (_Renderer) {
   _createClass(RaphaelRenderer, [{
     key: 'drawNode',
     value: function drawNode(node) {
-      var color = _raphael2.default.getColor();
+      var color = Raphael.getColor();
       // TODO update / cache shape
       node.shape = this.canvas.set();
       node.shape.connections = [];
@@ -120,7 +123,7 @@ var getConnectionPoints = function getConnectionPoints(obj1, obj2) {
   /* SOUTH 1 */
   { x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + off1 },
 
-  /* WEST */
+  /* WEST  1 */
   { x: bb1.x - off1, y: bb1.y + bb1.height / 2 },
 
   /* EAST  1 */
@@ -139,7 +142,7 @@ var getConnectionPoints = function getConnectionPoints(obj1, obj2) {
   { x: bb2.x + bb2.width + off2, y: bb2.y + bb2.height / 2 }];
 };
 
-_raphael2.default.fn.connection = function Connection(obj1, obj2, style) {
+Raphael.fn.connection = function Connection(obj1, obj2, style) {
   var self = this;
 
   /* create and return new connection */

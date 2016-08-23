@@ -16,19 +16,21 @@
   "scripts": {
     "start": "babel watch src --out-file public/bundle.js",
     "build": "babel src -d dist",
+    "build:dev": "browserify main.js --standalone Dracula --ignore raphael -t babelify --debug > dist/dracula.js",
+    "build:prod": "browserify main.js --standalone Dracula --ignore raphael -t babelify --debug | uglifyjs > dist/dracula.min.js",
     "watch": "babel --watch src -d dist",
+    "pretest": "npm run check",
     "test": "mocha --compilers js:babel-register src/**/*.spec.js src/*.spec.js",
     "test-watch": "mocha --watch --compilers js:babel-register src/**/*.spec.js src/*.spec.js",
     "check": "eslint src/",
-    "fix": "eslint --fix src/",
-    "example-watch": "watchify -t babelify examples/basic/script.js --debug -v -o examples/basic/bundle.js"
+    "fix": "eslint --fix src/"
   },
   "license": "MIT",
   "files": [
     "dist/*",
     "README.md"
   ],
-  "main": "main.js",
+  "main": "index.js",
   "bugs": {
     "email": "philipp@stratha.us",
     "url": "https://github.com/strathausen/dracula/issues"

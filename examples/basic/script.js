@@ -1,8 +1,4 @@
-import Dracula from '../../src/Dracula'
-import Layouter from '../../src/Dracula.Spring'
-import Renderer from '../../src/Renderer.Raphael'
-
-const g = new Dracula
+const g = new Dracula.Graph
 
 g.addEdge('Banana', 'Tomato')
 g.addEdge('Mushroom', 'Tomato')
@@ -10,8 +6,8 @@ g.addEdge('Apple', 'Tomato')
 g.addEdge('Apple', 'Mushroom')
 g.addEdge('Banana', 'Mushroom')
 
-const layouter = new Layouter(g)
+const layouter = new Dracula.Layout.Spring(g)
 
-const renderer = new Renderer('#canvas', g)
+const renderer = new Dracula.Renderer.Raphael('#canvas', g)
 
 renderer.draw()

@@ -1,13 +1,13 @@
 // Core
-var dracula = require('./dist/dracula').default
+var dracula = require('./src/dracula').default
 
 // Layouts
-var spring = require('./dist/layout/spring').default
-var orderedTree = require('./dist/layout/ordered_tree').default
-var tournamentTree = require('./dist/layout/tournament_tree').default
+var spring = require('./src/layout/spring').default
+var orderedTree = require('./src/layout/ordered_tree').default
+var tournamentTree = require('./src/layout/tournament_tree').default
 
 // Renderers
-var raphael = require('./dist/renderer/raphael').default
+var raphael = require('./src/renderer/raphael').default
 
 module.exports.Graph = dracula
 
