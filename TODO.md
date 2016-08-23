@@ -1,20 +1,18 @@
 # the roadmap to victory
 
-- test with snap
-- write renderer for raphael/snapsvg
-- build with min + map + jscs / bundle / dist ...
+- snap renderer
+- minify
+- sourcemap
+- all bundle
 
 - React renderer
 - Angular renderer
-- port old contribution / license info
-- test with raphael
 - starter bootstrap simple build for classic js
-- es6 js boilerplate
 - ordered tree
 - tournament tree
 - write renderer for savage.js
 - have a minimal version on microjs: draculite
-- tutorial for usage with `npm` (also mention duo etc.)
+- tutorial also mention duo etc.
 - tutorial for usage with cdn
 - publish for `duo` http://duojs.org
 - publish for `bower`
@@ -35,13 +33,16 @@
 - https://gemnasium.com
 - automatted cross browser testing
 
-## for later
-- more unit tests
-
 ## done
 - write core
 - write spring layouter
-
+- write renderer for raphael
+- es6 js boilerplate
+- test with raphael
+- port old contribution / license info
+- more unit tests
+- build with jscs / bundle / dist ...
+- tutorial for usage with `npm`
 
 ## inspiration
 - http://jasonpark.me/AlgorithmVisualizer/
