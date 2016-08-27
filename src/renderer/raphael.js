@@ -37,7 +37,7 @@ let dragify = shape => {
           this.animate({'fill-opacity': 0.2}, 500);
         },
         function dragOut() {
-          this.animate({'fill-opacity': 0.6}, 500);
+          this.animate({'fill-opacity': 0.0}, 500);
         }
     )
   })
