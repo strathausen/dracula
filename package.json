@@ -2,7 +2,7 @@
   "author": {
     "name": "Johann Philipp Strathausen",
     "email": "philipp@stratha.us",
-    "url": "http://stratha.us"
+    "url": "https://www.stratha.us"
   },
   "contributors": [
     "Aslak Hellesoy <aslak.hellesoy@gmail.com>",
@@ -12,7 +12,7 @@
   "name": "graphdracula",
   "description": "JavaScript Graph Layouting and Drawing",
   "version": "1.0.2",
-  "homepage": "http://www.graphdracula.net",
+  "homepage": "https://www.graphdracula.net",
   "scripts": {
     "watch": "babel watch src --out-file public/bundle.js",
     "build": "npm run build:node; npm run build:dev; npm run build:prod",
