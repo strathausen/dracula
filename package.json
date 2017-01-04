@@ -14,10 +14,10 @@
   "version": "1.0.3",
   "homepage": "https://www.graphdracula.net",
   "scripts": {
-    "watch": "babel watch src --out-file public/bundle.js",
+    "start": "npm run build:dev",
     "build": "npm run build:node; npm run build:dev; npm run build:prod",
     "build:node": "babel src -d lib",
-    "build:dev": "browserify main.js --standalone Dracula --ignore raphael -t babelify --debug > dist/dracula.dev.js",
+    "build:dev": "watchify main.js -v --standalone Dracula --ignore raphael -t babelify --debug -o dist/dracula.dev.js",
     "build:prod": "browserify main.js --standalone Dracula --ignore raphael -t babelify --debug | uglifyjs > dist/dracula.min.js",
     "pretest": "npm run check",
     "prebuild": "npm test",
@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "lodash": "^4.14.1",
-    "uuid": "^2.0.2"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -64,8 +64,11 @@
     "babel-preset-es2015": "^6.13.2",
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
-    "eslint": "^3.2.2",
-    "mocha": "~3.0.1",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "mocha": "~3.2.0",
     "randomcolor": "^0.4.4",
     "raphael": "^2.2.1",
     "sinon": "^1.17.5",
