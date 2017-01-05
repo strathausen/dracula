@@ -81,6 +81,6 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": "*"
+    "node": ">=6"
   }
 }
