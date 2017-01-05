@@ -1,9 +1,7 @@
 import uuid from 'uuid'
 
 // Testing for string or number data type
-let isId = x => !!~['string', 'number'].indexOf(typeof x)
-let edges = 'edges' // Symbol('edges')
-let nodes = 'nodes' // Symbol('nodes')
+const isId = x => !!~['string', 'number'].indexOf(typeof x)
 
 /**
  * Graph Data Structure
@@ -11,16 +9,17 @@ let nodes = 'nodes' // Symbol('nodes')
 export default class Dracula {
 
   constructor() {
-    this[nodes] = {}
-    this[edges] = []
+    this.nodes = {}
+    this.edges = []
   }
 
   /**
    * Creator for the new haters :)
+   *
    * @returns {Dracula} a new graph instance
    */
   static create() {
-    return new Dracula
+    return new Dracula()
   }
 
   /**
@@ -36,17 +35,18 @@ export default class Dracula {
   addNode(id, nodeData) {
     // Node initialisation shorthands
     if (!nodeData) {
-      nodeData = isId(id) ? {id} : id
+      nodeData = isId(id) ? { id } : id
     } else {
       nodeData.id = id
     }
     if (!nodeData.id) {
       nodeData.id = uuid()
       // Don't create a new node if it already exists
-    } else if (this[nodes][nodeData.id]) {
-      return this[nodes][nodeData.id]
+    } else if (this.nodes[nodeData.id]) {
+      return this.nodes[nodeData.id]
     }
-    this[nodes][nodeData.id] = nodeData
+    nodeData.edges = []
+    this.nodes[nodeData.id] = nodeData
     return nodeData
   }
 
@@ -56,12 +56,14 @@ export default class Dracula {
    * @param {object|} (optional) edge data, e.g. styles
    * @returns {Edge}
    */
-  addEdge(source, target, edgeData={}) {
-    let sourceNode = this.addNode(source)
-    let targetNode = this.addNode(target)
+  addEdge(source, target, edgeData = {}) {
+    const sourceNode = this.addNode(source)
+    const targetNode = this.addNode(target)
     edgeData.source = sourceNode
     edgeData.target = targetNode
-    this[edges].push(edgeData)
+    this.edges.push(edgeData)
+    sourceNode.edges.push(edgeData)
+    targetNode.edges.push(edgeData)
     return edgeData
   }
 
@@ -70,14 +72,16 @@ export default class Dracula {
    * @return {Node}
    */
   removeNode(node) {
-    let id = isId(node) ? node : node.id
-    node = this[nodes][id]
+    const id = isId(node) ? node : node.id
+    node = this.nodes[id]
     // Delete node from index
-    delete this[nodes][id]
+    delete this.nodes[id]
     // Delete node from all the edges
-    this[edges] = this[edges].filter(edge => (
-      edge.source !== node && edge.target !== node
-    ))
+    this.edges.forEach((edge) => {
+      if (edge.source === node || edge.target === node) {
+        this.removeEdge(edge)
+      }
+    })
     return node
   }
 
@@ -95,22 +99,26 @@ export default class Dracula {
       source = source.source
     }
     // Normalise node IDs
-    if (isId(source)) source = {id: source}
-    if (isId(target)) target = {id: target}
+    if (isId(source)) source = { id: source }
+    if (isId(target)) target = { id: target }
     // Find and remove edge
-    this[edges] = this[edges].filter(edge => {
+    this.edges = this.edges.filter((edge) => {
       if (edge.source.id === source.id && edge.target.id === target.id) {
         found = edge
         return false
       }
       return true
     })
+    if (found) {
+      found.source.edges = found.source.edges.filter(edge => edge !== found)
+      found.target.edges = found.target.edges.filter(edge => edge !== found)
+    }
     // Return removed edge
     return found
   }
 
   toJSON() {
-    return {nodes: this[nodes], edges: this[edges]}
+    return { nodes: this.nodes, edges: this.edges }
   }
 
 }

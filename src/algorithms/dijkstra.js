@@ -15,7 +15,7 @@ function dijkstra(g, source) {
 
   /* predecessors are implicitly null */
 
-  g.snapShot('Initially, all distances are infinite and all predecessors are null.');
+  // g.snapShot('Initially, all distances are infinite and all predecessors are null.');
 
   source.distance = 0;
 
@@ -60,7 +60,7 @@ function dijkstra(g, source) {
 
         /* update path */
         other.predecessor = node;
-        g.snapShot('Enhancing node.');
+        // g.snapShot('Enhancing node.');
       }
     });
   }
