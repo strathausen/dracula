@@ -2,37 +2,35 @@ import Renderer from './renderer'
 import assert from 'assert'
 import sinon from 'sinon'
 
-let graphMock = {
+const graphMock = {
   layoutMinX: 0,
   layoutMaxX: 10,
   layoutMinY: -6,
   layoutMaxY: 10,
   edges: [{}],
   nodes: {
-    1: {layoutPosX: 3, layoutPosY: 4},
-    2: {}
-  }
+    1: { layoutPosX: 3, layoutPosY: 4 },
+    2: {},
+  },
 }
 
-let domEl = {}
+const domEl = {}
 
 describe('Renderer', () => {
-
   describe('#constructor', () => {
-
     it('using document querySelector', () => {
-      let origDoc = global.document
-      let spyDoc = sinon.spy()
+      const origDoc = global.document
+      const spyDoc = sinon.spy()
       // Document stub
-      global.document = {querySelector: spyDoc}
+      global.document = { querySelector: spyDoc }
       Renderer.render('#element', graphMock)
       assert(spyDoc.calledOnce)
       global.document = origDoc
     })
 
     it('using jQuery', () => {
-      let origJQ = global.$
-      let spyJQ = sinon.spy()
+      const origJQ = global.$
+      const spyJQ = sinon.spy()
       // jQuery stub
       global.$ = spyJQ
       Renderer.render('#element', graphMock)
@@ -41,11 +39,11 @@ describe('Renderer', () => {
     })
 
     it('using dom element', () => {
-      let origDoc = global.document
-      let spyDoc = sinon.spy()
+      const origDoc = global.document
+      const spyDoc = sinon.spy()
 
-      let origJQ = global.$
-      let spyJQ = sinon.spy()
+      const origJQ = global.$
+      const spyJQ = sinon.spy()
 
 
       Renderer.render(domEl, graphMock)
@@ -58,15 +56,14 @@ describe('Renderer', () => {
     })
 
     it('set default width and height', () => {
-      let renderer = Renderer.render(domEl, graphMock)
+      const renderer = Renderer.render(domEl, graphMock)
       assert.equal(renderer.width, 400)
       assert.equal(renderer.height, 300)
     })
-
   })
 
   describe('#draw', () => {
-    let renderer = Renderer.render(domEl, graphMock)
+    const renderer = Renderer.render(domEl, graphMock)
     renderer.drawNode = sinon.spy()
     renderer.drawEdge = sinon.spy()
     renderer.draw()
@@ -92,5 +89,4 @@ describe('Renderer', () => {
       assert.deepEqual(graphMock.nodes[1].point, [136, 178])
     })
   })
-
 })

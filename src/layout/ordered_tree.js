@@ -16,15 +16,15 @@ export default class OrderedTree extends Layout {
   layoutPrepare() {
     // To reverse the order of rendering, we need to find out the
     // absolute number of levels we have. simple log math applies.
-    let numNodes = this.order.length
-    let totalLevels = Math.floor(Math.log(numNodes) / Math.log(2))
+    const numNodes = this.order.length
+    const totalLevels = Math.floor(Math.log(numNodes) / Math.log(2))
 
     let counter = 1
-    this.order.forEach(node => {
+    this.order.forEach((node) => {
       // Rank aka x coordinate
-      let rank = Math.floor(Math.log(counter) / Math.log(2))
+      const rank = Math.floor(Math.log(counter) / Math.log(2))
       // File relative to top
-      let file = counter - Math.pow(rank, 2)
+      const file = counter - Math.pow(rank, 2)
 
       node.layoutPosX = totalLevels - rank
       node.layoutPosY = file

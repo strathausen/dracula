@@ -3,7 +3,6 @@ import Spring from './spring'
 import assert from 'assert'
 
 describe('Spring Layout', () => {
-
   let graph
 
   it('should not crash', () => {
@@ -13,9 +12,9 @@ describe('Spring Layout', () => {
   })
 
   it('have a distance between the nodes', () => {
-    let {a, b} = graph.nodes
-    let diffX = Math.abs(a.layoutPosX - b.layoutPosX)
-    let diffY = Math.abs(a.layoutPosY - b.layoutPosY)
+    let { a, b } = graph.nodes
+    const diffX = Math.abs(a.layoutPosX - b.layoutPosX)
+    const diffY = Math.abs(a.layoutPosY - b.layoutPosY)
     assert(diffX > 0)
     assert(diffY > 0)
   })
@@ -26,5 +25,4 @@ describe('Spring Layout', () => {
     assert(graph.layoutMaxX, 'no max x')
     assert(graph.layoutMaxY, 'no max y')
   })
-
 })

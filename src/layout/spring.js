@@ -1,5 +1,5 @@
 import Layout from './layout'
-import {each} from 'lodash/collection'
+import { each } from 'lodash/collection'
 
 /**
  * TODO take ratio into account
@@ -30,7 +30,7 @@ export default class Spring extends Layout {
   }
 
   layoutPrepare() {
-    each(this.graph.nodes, node => {
+    each(this.graph.nodes, (node) => {
       node.layoutPosX = 0
       node.layoutPosY = 0
       node.layoutForceX = 0
@@ -40,25 +40,25 @@ export default class Spring extends Layout {
 
   layoutIteration() {
     // Forces on nodes due to node-node repulsions
-    let prev = []
-    each(this.graph.nodes, node1 => {
-      prev.forEach(node2 => {
+    const prev = []
+    each(this.graph.nodes, (node1) => {
+      prev.forEach((node2) => {
         this.layoutRepulsive(node1, node2)
       })
       prev.push(node1)
     })
 
     // Forces on nodes due to edge attractions
-    this.graph.edges.forEach(edge => {
+    this.graph.edges.forEach((edge) => {
       this.layoutAttractive(edge)
     })
 
     // Move by the given force
-    each(this.graph.nodes, node => {
+    each(this.graph.nodes, (node) => {
       let xmove = this.c * node.layoutForceX
       let ymove = this.c * node.layoutForceY
 
-      let max = this.maxVertexMovement
+      const max = this.maxVertexMovement
 
       if (xmove > max) xmove = max
       if (xmove < -max) xmove = -max
@@ -84,9 +84,9 @@ export default class Spring extends Layout {
       dy = 0.1 * Math.random() + 0.1
       d2 = dx * dx + dy * dy
     }
-    let d = Math.sqrt(d2)
+    const d = Math.sqrt(d2)
     if (d < this.maxRepulsiveForceDistance) {
-      let repulsiveForce = this.k * this.k / d
+      const repulsiveForce = this.k * this.k / d
       node2.layoutForceX += repulsiveForce * dx / d
       node2.layoutForceY += repulsiveForce * dy / d
       node1.layoutForceX -= repulsiveForce * dx / d
@@ -95,8 +95,8 @@ export default class Spring extends Layout {
   }
 
   layoutAttractive(edge) {
-    let node1 = edge.source
-    let node2 = edge.target
+    const node1 = edge.source
+    const node2 = edge.target
 
     let dx = node2.layoutPosX - node1.layoutPosX
     let dy = node2.layoutPosY - node1.layoutPosY

@@ -1,4 +1,4 @@
-import {each} from 'lodash/collection'
+import { each } from 'lodash/collection'
 
 /**
  * Base class for rendering nodes
@@ -17,7 +17,7 @@ export default class Renderer {
     this.graph = graph
     // Convert a query into a dom element
     if (typeof element === 'string') {
-      let selector = typeof $ !== 'undefined' ? $ : (q => document.querySelector(q))
+      const selector = typeof $ !== 'undefined' ? $ : (q => document.querySelector(q))
       element = selector(element)
     }
     this.element = element
@@ -37,11 +37,11 @@ export default class Renderer {
     this.factorY = (this.height - 2 * this.radius) /
                       (this.graph.layoutMaxY - this.graph.layoutMinY)
 
-    each(this.graph.nodes, node => {
+    each(this.graph.nodes, (node) => {
       node.point = this.translate([node.layoutPosX, node.layoutPosY])
       this.drawNode(node)
     })
-    each(this.graph.edges, edge => {
+    each(this.graph.edges, (edge) => {
       this.drawEdge(edge)
     })
   }
@@ -49,7 +49,7 @@ export default class Renderer {
   translate(point) {
     return [
       Math.round((point[0] - this.graph.layoutMinX) * this.factorX + this.radius),
-      Math.round((point[1] - this.graph.layoutMinY) * this.factorY + this.radius)
+      Math.round((point[1] - this.graph.layoutMinY) * this.factorY + this.radius),
     ]
   }
 

@@ -8,7 +8,7 @@ export default class RaphaelRenderer extends Renderer {
     this.canvas = new SnapSvg(this.width, this.height, element)
     this.lineStyle = {
       stroke: '#abcdef',
-      'stroke-width': '2px'
+      'stroke-width': '2px',
     }
   }
 
@@ -18,8 +18,8 @@ export default class RaphaelRenderer extends Renderer {
   }
 
   drawEdge(edge) {
-    let p1 = edge.source.point
-    let p2 = edge.target.point
+    const p1 = edge.source.point
+    const p2 = edge.target.point
     edge.shape = this.canvas.line(p1[0], p1[1], p2[0], p2[1])
     edge.shape.attr(this.lineStyle)
   }

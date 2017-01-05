@@ -1,4 +1,4 @@
-import {each} from 'lodash/collection'
+import { each } from 'lodash/collection'
 
 /**
  * Base class for distributing nodes algorithms
@@ -16,7 +16,7 @@ export default class Layout {
   }
 
   initCoords() {
-    each(this.graph.nodes, node => {
+    each(this.graph.nodes, (node) => {
       node.layoutPosX = 0
       node.layoutPosY = 0
     })
@@ -32,9 +32,9 @@ export default class Layout {
     let miny = Infinity
     let maxy = -Infinity
 
-    each(this.graph.nodes, node => {
-      let x = node.layoutPosX
-      let y = node.layoutPosY
+    each(this.graph.nodes, (node) => {
+      const x = node.layoutPosX
+      const y = node.layoutPosY
 
       if (x > maxx) maxx = x
       if (x < minx) minx = x
