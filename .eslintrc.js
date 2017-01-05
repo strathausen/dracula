@@ -20,5 +20,7 @@ module.exports = {
   },
   "rules": {
     "semi": 0,
+    "no-param-reassign": 0,
+    "no-bitwise": 0,
   }
 };
