@@ -53,11 +53,11 @@ export default class Renderer {
     ]
   }
 
-  drawNode(node) { // eslint-disable-line no-unused-vars
+  drawNode(node) { // eslint-disable-line no-unused-vars, class-methods-use-this
     throw new Error('not implemented')
   }
 
-  drawEdge(edge) { // eslint-disable-line no-unused-vars
+  drawEdge(edge) { // eslint-disable-line no-unused-vars, class-methods-use-this
     throw new Error('not implemented')
   }
 

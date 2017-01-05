@@ -22,5 +22,10 @@ module.exports = {
     "semi": 0,
     "no-param-reassign": 0,
     "no-bitwise": 0,
+    "no-mixed-operators": 0,
+    "no-plusplus": 0,
+    "import/no-extraneous-dependencies": 0,
+    "no-nested-ternary": 0,
+    "no-restricted-properties": 0,
   }
 };

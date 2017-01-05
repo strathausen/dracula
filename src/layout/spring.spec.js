@@ -1,6 +1,6 @@
-import Dracula from '../dracula'
-import Spring from './spring'
 import assert from 'assert'
+import Spring from './spring'
+import Dracula from '../dracula'
 
 describe('Spring Layout', () => {
   let graph
@@ -12,7 +12,7 @@ describe('Spring Layout', () => {
   })
 
   it('have a distance between the nodes', () => {
-    let { a, b } = graph.nodes
+    const { a, b } = graph.nodes
     const diffX = Math.abs(a.layoutPosX - b.layoutPosX)
     const diffY = Math.abs(a.layoutPosY - b.layoutPosY)
     assert(diffX > 0)

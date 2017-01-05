@@ -1,6 +1,6 @@
-import Renderer from './renderer'
 import assert from 'assert'
 import sinon from 'sinon'
+import Renderer from './renderer'
 
 const graphMock = {
   layoutMinX: 0,

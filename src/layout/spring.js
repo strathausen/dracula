@@ -1,5 +1,5 @@
-import Layout from './layout'
 import { each } from 'lodash/collection'
+import Layout from './layout'
 
 /**
  * TODO take ratio into account

@@ -1,5 +1,5 @@
-import Layout from './layout'
 import { each } from 'lodash/collection'
+import Layout from './layout'
 
 export default class TournamentTree extends Layout {
 
@@ -34,9 +34,9 @@ export default class TournamentTree extends Layout {
     this.order.forEach((node) => {
       const depth = Math.floor(Math.log(counter) / Math.log(2))
       const offset = Math.pow(2, totalLevels - depth)
-      const final_x = offset + (counter - Math.pow(2, depth)) *
+      const finalX = offset + (counter - Math.pow(2, depth)) *
         Math.pow(2, (totalLevels - depth) + 1)
-      node.layoutPosX = final_x
+      node.layoutPosX = finalX
       node.layoutPosY = depth
       counter++;
     })

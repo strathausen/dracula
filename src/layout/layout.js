@@ -22,7 +22,7 @@ export default class Layout {
     })
   }
 
-  layoutPrepare() {
+  layoutPrepare() { // eslint-disable-line
     throw new Error('not implemented')
   }
 

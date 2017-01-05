@@ -70,7 +70,6 @@ describe('Dracula', () => {
       const graph = Dracula.create()
       graph.addEdge('a', 'b')
       const removedNode = graph.removeNode('a')
-      const resultEdge = { target: { id: 'a' }, source: { id: 'b' } }
       const resultNode = { id: 'a', edges: [] }
       assert.deepEqual(removedNode, resultNode)
       assert.deepEqual(graph.toJSON().edges, [])
