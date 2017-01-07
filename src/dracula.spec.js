@@ -102,18 +102,17 @@ describe('Dracula', () => {
     it('remove by providing two node ids', () => {
       const graph = Dracula.create()
       graph.addEdge('a', 'b')
-      const edge = graph.removeEdge('a', 'b')
+      const removed = graph.removeEdge('a', 'b')
       const result = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] } }
-      assert.deepEqual(edge, result)
+      assert.deepEqual(removed, result)
       assert.equal(Object.keys(graph.toJSON().edges).length, 0)
     })
 
     it('remove by providing two nodes', () => {
       const graph = Dracula.create()
-      const edge = graph.addEdge('a', 'b')
+      graph.addEdge('a', 'b')
       const removed = graph.removeEdge({ id: 'a' }, { id: 'b' })
       const resultEdge = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] } }
-      assert.deepEqual(edge, resultEdge)
       assert.deepEqual(removed, resultEdge)
       assert.equal(Object.keys(graph.toJSON().edges).length, 0)
     })
@@ -123,36 +122,33 @@ describe('Dracula', () => {
       const edge = graph.addEdge('a', 'b')
       const removed = graph.removeEdge(edge)
       const resultEdge = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] } }
-      assert.deepEqual(edge, resultEdge)
       assert.deepEqual(removed, resultEdge)
       assert.equal(Object.keys(graph.toJSON().edges).length, 0)
     })
 
-    it('remove something else', () => {
+    it('remove non-existing edge', () => {
       const graph = Dracula.create()
-      const edge = graph.addEdge('a', 'b')
+      graph.addEdge('a', 'b')
       const removed = graph.removeEdge('b', 'c')
       const resultEdge = { source: { id: 'a' }, target: { id: 'b' } }
       resultEdge.source.edges = [resultEdge]
       resultEdge.target.edges = [resultEdge]
-      assert.deepEqual(edge, resultEdge)
       assert.deepEqual(removed, undefined)
       assert.equal(Object.keys(graph.toJSON().edges).length, 1)
     })
   })
 
   describe('#toJSON', () => {
+    const graph = Dracula.create()
+    graph.addNode(23)
+    graph.addEdge(23, 'c')
+    const resultSource = { id: 23 }
+    const resultTarget = { id: 'c' }
+    const resultEdge = { source: resultSource, target: resultTarget }
+    resultSource.edges = [resultEdge]
+    resultTarget.edges = [resultEdge]
+
     it('represent graph structure', () => {
-      const graph = Dracula.create()
-      const node = graph.addNode(23)
-      const edge = graph.addEdge(23, 'c')
-      const resultSource = { id: 23 }
-      const resultTarget = { id: 'c' }
-      const resultEdge = { source: resultSource, target: resultTarget }
-      resultSource.edges = [resultEdge]
-      resultTarget.edges = [resultEdge]
-      assert.deepEqual(node, resultSource)
-      assert.deepEqual(edge, resultEdge)
       assert.deepEqual(graph.toJSON(), {
         edges: [resultEdge],
         nodes: { 23: resultSource, c: resultTarget },

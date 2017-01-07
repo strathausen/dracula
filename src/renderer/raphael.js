@@ -56,20 +56,27 @@ export default class RaphaelRenderer extends Renderer {
   drawNode(node) {
     const color = Raphael.getColor()
     // TODO update / cache shape
-    node.shape = this.canvas.set()
-    node.shape.connections = []
-    node.shape
+    // if (node.shape) {
+    //   node.shape.translate(node.point[0], node.point[1])
+    //   return
+    // }
+    if (node.render) {
+      node.shape = node.render(this.canvas, node)
+    } else {
+      node.shape = this.canvas.set()
+      node.shape
       .push(this.canvas.ellipse(0, 0, 30, 20)
         .attr({ stroke: color, 'stroke-width': 2, fill: color, 'fill-opacity': 0 }))
       .push(this.canvas.text(0, 30, node.label || node.id))
       .translate(node.point[0], node.point[1])
-      // .drag(move, dragger, up)
+    }
+    node.shape.connections = []
     dragify(node.shape)
   }
 
   drawEdge(edge) {
     if (!edge.shape) {
-      edge.shape = this.canvas.connection(edge.source.shape, edge.target.shape)
+      edge.shape = this.canvas.connection(edge.source.shape, edge.target.shape, edge.style)
       // edge.shape.line.attr(this.lineStyle)
       edge.source.shape.connections.push(edge.shape)
       edge.target.shape.connections.push(edge.shape)
