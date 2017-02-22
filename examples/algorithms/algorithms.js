@@ -1,8 +1,8 @@
 /* global Dracula, dijkstra */
 
 window.onload = function () {
-  const width = 400;// $('#canvas').width();
-  const height = 300;// $('#canvas').height() - 100;
+  const width = 400;
+  const height = 300;
 
   /* Showcase of the Bellman-Ford search algorithm finding shortest paths
      from one point to every node */
@@ -34,13 +34,12 @@ window.onload = function () {
   }
 
   /* modify the addEdge function to attach random weights */
-  g.addEdge2 = g.addEdge;
-  g.addEdge = function (from, to, edgeData) {
+  const addEdge = function (from, to, edgeData) {
     edgeData = edgeData || {}
     edgeData.weight = Math.floor(Math.random() * 10) + 1;
     edgeData.label = edgeData.weight;
     edgeData.style = { 'pointer-events': 'none' }
-    g.addEdge2(from, to, edgeData);
+    g.addEdge(from, to, edgeData);
   };
 
   addNode('New York');
@@ -51,17 +50,17 @@ window.onload = function () {
   addNode('Madrid');
 
   /* connections */
-  g.addEdge('Tokyo', 'Tel Aviv');
-  g.addEdge('Tokyo', 'New York');
-  g.addEdge('Tokyo', 'Berlin');
-  g.addEdge('Tel Aviv', 'Berlin');
-  g.addEdge('Tel Aviv', 'New York');
-  g.addEdge('Tel Aviv', 'Bucharest');
-  g.addEdge('Bucharest', 'New York');
-  g.addEdge('Berlin', 'New York');
-  g.addEdge('Madrid', 'New York');
-  g.addEdge('Madrid', 'Bucharest');
-  g.addEdge('Madrid', 'Tokyo');
+  addEdge('Tokyo', 'Tel Aviv');
+  addEdge('Tokyo', 'New York');
+  addEdge('Tokyo', 'Berlin');
+  addEdge('Tel Aviv', 'Berlin');
+  addEdge('Tel Aviv', 'New York');
+  addEdge('Tel Aviv', 'Bucharest');
+  addEdge('Bucharest', 'New York');
+  addEdge('Berlin', 'New York');
+  addEdge('Madrid', 'New York');
+  addEdge('Madrid', 'Bucharest');
+  addEdge('Madrid', 'Tokyo');
 
   /* layout the graph using the Spring layout implementation */
   const layouter = new Dracula.Layout.Spring(g);
