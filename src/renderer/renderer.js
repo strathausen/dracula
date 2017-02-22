@@ -17,8 +17,7 @@ export default class Renderer {
     this.graph = graph
     // Convert a query into a dom element
     if (typeof element === 'string') {
-      const selector = typeof $ !== 'undefined' ? $ : (q => document.querySelector(q))
-      element = selector(element)
+      element = (typeof $ !== 'undefined') ? $(element)[0] : document.querySelector(element)
     }
     this.element = element
     this.width = width || 400

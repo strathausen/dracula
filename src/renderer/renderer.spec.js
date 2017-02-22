@@ -30,7 +30,7 @@ describe('Renderer', () => {
 
     it('using jQuery', () => {
       const origJQ = global.$
-      const spyJQ = sinon.spy()
+      const spyJQ = sinon.spy(() => [])
       // jQuery stub
       global.$ = spyJQ
       Renderer.render('#element', graphMock)
