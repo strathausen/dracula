@@ -14,6 +14,7 @@ Creating a graph is simple! You can also customise anything easily.
 First, install the dependencies:
 
     npm install --save graphdracula raphael
+    jspm install npm:graphdracula
 
 Second, create an html file with a tag having the ID `paper`.
 
