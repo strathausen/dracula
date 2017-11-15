@@ -117,6 +117,37 @@ export default class Dracula {
     return found
   }
 
+  addTmpEdge(source, coords, edgeData = {}) {
+    var s = this.addNode(source);
+    edgeData.source = s;
+    edgeData.coords = coords;
+    s.tmpEdge = edgeData;
+    return edgeData;
+  }
+
+  addOrRemoveEdge(source, target, edgeData = {}) {
+    const sourceNode = this.addNode(source);
+    const targetNode = this.addNode(target);
+
+    if (sourceNode === targetNode) {
+      return;
+    }
+
+    // remove edge if it exists between the same pair
+    var i = this.edges.length;
+    // seems like iterating backwards is best when the list may change
+    while (i--) {
+      var e = this.edges[i];
+      // remove edge if it exists and return
+      if (e.source === sourceNode && e.target === targetNode){
+        this.removeEdge(e);
+        return;
+      }
+    }
+
+    return this.addEdge(source, target, edgeData);
+  }
+
   toJSON() {
     return { nodes: this.nodes, edges: this.edges }
   }
