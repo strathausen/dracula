@@ -11,7 +11,9 @@ const dragify = (shape) => {
     if (item.type === 'text') {
       return
     }
-    item.node.style.cursor = 'move';
+
+    // node may not be present in nested sets
+    if (item.node) { item.node.style.cursor = 'move'; }
     item.drag(
         function dragMove(dx, dy, x, y) {
           dx = this.set.ox;
@@ -81,10 +83,20 @@ export default class RaphaelRenderer extends Renderer {
       edge.source.shape.connections.push(edge.shape)
       edge.target.shape.connections.push(edge.shape)
     }
+
+    if (edge.source.hidden || edge.target.hidden) {
+      edge.shape && edge.shape.fg.hide();
+      edge.shape.bg && edge.shape.bg.hide();
+    }
   }
 
+  destroyEdge(edge) {
+    if (edge.shape) {
+      edge.shape.fg && edge.shape.fg.remove();
+      edge.shape.bg && edge.shape.bg.remove();
+    }
+  }
 }
-
 // <Raphael.fn.connection>
 
 /* coordinates for potential connection coordinates from/to the objects */
@@ -140,28 +152,33 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
       const dis = []
       let dx
       let dy
+      let res
 
-      /*
-       * find out the best connection coordinates by trying all possible ways
-       */
-      /* loop the first object's connection coordinates */
-      for (let i = 0; i < 4; i++) {
-        /* loop the second object's connection coordinates */
-        for (let j = 4; j < 8; j++) {
-          dx = Math.abs(p[i].x - p[j].x)
-          dy = Math.abs(p[i].y - p[j].y)
-          if ((i === j - 4) || (((i !== 3 && j !== 6) || p[i].x < p[j].x) &&
-            ((i !== 2 && j !== 7) || p[i].x > p[j].x) &&
-            ((i !== 0 && j !== 5) || p[i].y > p[j].y) &&
-            ((i !== 1 && j !== 4) || p[i].y < p[j].y))
-          ) {
-            dis.push(dx + dy)
-            d[dis[dis.length - 1].toFixed(3)] = [i, j]
+      if (style.constraint) {
+        res = style.constraint;
+      } else {
+        /*
+         * find out the best connection coordinates by trying all possible ways
+         */
+        /* loop the first object's connection coordinates */
+        for (let i = 0; i < 4; i++) {
+          /* loop the second object's connection coordinates */
+          for (let j = 4; j < 8; j++) {
+            dx = Math.abs(p[i].x - p[j].x)
+            dy = Math.abs(p[i].y - p[j].y)
+            if ((i === j - 4) || (((i !== 3 && j !== 6) || p[i].x < p[j].x) &&
+              ((i !== 2 && j !== 7) || p[i].x > p[j].x) &&
+              ((i !== 0 && j !== 5) || p[i].y > p[j].y) &&
+              ((i !== 1 && j !== 4) || p[i].y < p[j].y))
+               ) {
+              dis.push(dx + dy)
+              d[dis[dis.length - 1].toFixed(3)] = [i, j]
+            }
           }
         }
+        res = dis.length === 0 ? [0, 4] : d[Math.min(...dis).toFixed(3)]
       }
-      const res = dis.length === 0 ? [0, 4] : d[Math.min(...dis).toFixed(3)]
-
+        
       /* bezier path */
       const x1 = p[res[0]].x
       const y1 = p[res[0]].y
