@@ -83,6 +83,26 @@ export default class RaphaelRenderer extends Renderer {
     }
   }
 
+  destroyEdge(edge) {
+    if (edge.shape) {
+      edge.shape.fg && edge.shape.fg.remove();
+      edge.shape.bg && edge.shape.bg.remove();
+    }
+  }
+  
+  destroyTmpEdge(edge) {
+    delete edge.source.tmpEdge;
+    this.destroyEdge(edge);
+  }
+
+  drawTmpEdge(edge, coords) {
+    if(!edge.shape) {
+      edge.shape = this.canvas.tmpConnection(edge.source.shape, edge.coords, edge.style);
+      return;
+    }
+
+    edge.shape.draw(coords);
+  }
 }
 
 // <Raphael.fn.connection>
@@ -246,3 +266,121 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
 }
 
 // </Raphael.fn.connection>
+
+// <Raphael.fn.tmpConnection>
+/**
+ * A tmpConnection is like a normal connection, but between one object
+ * and a given point, instead of between two objects.
+ */
+Raphael.fn.tmpConnection = function TmpConnection(obj1, coords, edgeData) {
+  var selfRef = this;
+
+  var edge = {
+    draw : function(coords) {
+      /* get bounding boxes of target and source */
+      if(!coords){
+        return
+      }
+
+      var bb1 = obj1.getBBox();
+      var off1 = 0;
+      /* coordinates for potential connection coordinates from/to the objects */
+      var p = [
+        /* NORTH 1 */
+        { x: bb1.x + bb1.width / 2, y: bb1.y - off1 },
+        /* SOUTH 1 */
+        { x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + off1 },
+        /* WEST */
+        { x: bb1.x - off1, y: bb1.y + bb1.height / 2 },
+        /* EAST  1 */
+        { x: bb1.x + bb1.width + off1, y: bb1.y + bb1.height / 2 }
+      ];
+
+      /* distances between objects and according coordinates connection */
+      var d = {}, dis = [];
+
+      var res;
+
+      // if constraint is set, use this side
+      if (edgeData.constraint !== undefined) {
+        res = edgeData.constraint;
+      } else {
+        /*
+         * find out the best connection coordinates by trying all possible ways
+         */
+        /* loop the first object's connection coordinates */
+        for (var i = 0; i < 4; i++) {
+          var dx = Math.abs(p[i].x - coords.x);
+          var dy = Math.abs(p[i].y - coords.y);
+          if ((i != 3 || p[i].x < coords.x)
+            && (i !=2 || p[i].x > coords.x)
+            && (i != 0 || p[i].y > coords.y)
+            && (i != 1 || p[i].y < coords.y))
+          {
+            dis.push(dx + dy);
+            d[dis[dis.length - 1].toFixed(3)] = i;
+          }
+        }
+        var res = dis.length == 0 ? 0 : d[Math.min.apply(Math, dis).toFixed(3)];
+      }
+      /* bezier path */
+      var x1 = p[res].x,
+          y1 = p[res].y,
+          x4 = coords.x,
+          y4 = coords.y,
+          dx = Math.max(Math.abs(x1 - x4) / 2, 10),
+          dy = Math.max(Math.abs(y1 - y4) / 2, 10),
+          x2 = [ x1, x1, x1 - dx, x1 + dx ][res].toFixed(3),
+          y2 = [ y1 - dy, y1 + dy, y1, y1 ][res].toFixed(3),
+          x3 = [ 0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx ][res+4].toFixed(3),
+          y3 = [ 0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4 ][res+4].toFixed(3);
+      /* assemble path and arrow */
+      var path = [ "M" + x1.toFixed(3), y1.toFixed(3),
+          "C" + x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3) ].join(",");
+      /* arrow */
+      if(edgeData && edgeData.directed) {
+        // magnitude, length of the last path vector
+        var mag = Math.sqrt((y4 - y3) * (y4 - y3) + (x4 - x3) * (x4 - x3));
+        // vector normalisation to specified length
+        var norm = function(x,l){return (-x*(l||5)/mag);};
+        // calculate array coordinates (two lines orthogonal to the path vector)
+        var arr = [
+          { x:(norm(x4-x3)+norm(y4-y3)+x4).toFixed(3),
+            y:(norm(y4-y3)+norm(x4-x3)+y4).toFixed(3) },
+          { x:(norm(x4-x3)-norm(y4-y3)+x4).toFixed(3),
+            y:(norm(y4-y3)-norm(x4-x3)+y4).toFixed(3) }
+        ];
+        path = path + ",M" + arr[0].x + "," + arr[0].y + ",L" + x4 + "," +
+          y4 + ",L" + arr[1].x + "," + arr[1].y;
+      }
+      /* function to be used for moving existent path(s), e.g. animate() or attr() */
+      var move = "attr";
+      /* applying path(s) */
+      edge.fg && edge.fg[move]({path:path})
+          || (edge.fg = selfRef.path(path)
+              .attr({
+                stroke : edgeData && edgeData.stroke || "#000",
+                fill : "none" ,
+                "stroke-width" : edgeData["stroke-width"],
+                "stroke-dasharray" : edgeData && edgeData["stroke-dasharray"]
+              }).toBack());
+      edge.bg && edge.bg[move]({path:path})
+          || edgeData && edgeData.fill && (edge.bg = edgeData.fill.split
+              && selfRef.path(path)
+              .attr({ stroke: edgeData.fill.split("|")[0], fill: "none",
+                "stroke-width": edgeData.fill.split("|")[1] || 3 }).toBack());
+      /* setting label */
+      edgeData && edgeData.label
+          && (edge.label && edge.label.attr({x:(x1+x4)/2, y:(y1+y4)/2})
+              || (edge.label = selfRef.text((x1+x4)/2, (y1+y4)/2, edgeData.label)
+                .attr({fill: "#000", "font-size": edgeData["font-size"] || "12px"})));
+      edgeData && edgeData.label && edgeData["label-style"] && edge.label
+        && edge.label.attr(edgeData["label-style"]);
+      edgeData && edgeData.callback && edgeData.callback(edge);
+    }
+  };
+
+  edge.draw();
+  return edge;
+};
+// </Raphael.fn.tmpConnection>
