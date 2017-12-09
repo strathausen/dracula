@@ -17,8 +17,8 @@
     "start": "npm run build:dev",
     "build": "npm run build:node; npm run build:dev; npm run build:prod",
     "build:node": "babel src -d lib",
-    "build:dev": "watchify main.js -v --standalone Dracula --ignore raphael -t babelify --debug -o dist/dracula.dev.js",
-    "build:prod": "browserify main.js --standalone Dracula --ignore raphael -t babelify --debug | uglifyjs > dist/dracula.min.js",
+    "build:dev": "watchify src -v --standalone Dracula --ignore raphael -t babelify --debug -o dist/dracula.dev.js",
+    "build:prod": "browserify src --standalone Dracula --ignore raphael -t babelify --debug | uglifyjs > dist/dracula.min.js",
     "pretest": "npm run check",
     "prebuild": "npm test",
     "test": "mocha --compilers js:babel-register src/**/*.spec.js src/*.spec.js",
@@ -33,7 +33,7 @@
     "dist/*",
     "README.md"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "bugs": {
     "email": "philipp@stratha.us",
     "url": "https://github.com/strathausen/dracula/issues"
