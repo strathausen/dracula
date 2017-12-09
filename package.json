@@ -15,7 +15,7 @@
   "homepage": "https://www.graphdracula.net",
   "scripts": {
     "start": "npm run build:dev",
-    "build": "npm run build:node; npm run build:dev; npm run build:prod",
+    "build": "npm run build:node; npm run build:prod",
     "build:node": "babel src -d lib",
     "build:dev": "watchify src -v --standalone Dracula --ignore raphael -t babelify --debug -o dist/dracula.dev.js",
     "build:prod": "browserify src --standalone Dracula --ignore raphael -t babelify --debug | uglifyjs > dist/dracula.min.js",
