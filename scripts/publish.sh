@@ -1,5 +1,7 @@
 #!/bin/bash
+npm version patch
+git push
+git push --tags
 npm publish
-# TODO bower? duo ... bump tag
-# TODO bump version
+# TODO duo?
 # TODO upload on jscdn etc
