@@ -68,8 +68,8 @@ export default class RaphaelRenderer extends Renderer {
       .push(this.canvas.ellipse(0, 0, 30, 20)
         .attr({ stroke: color, 'stroke-width': 2, fill: color, 'fill-opacity': 0 }))
       .push(this.canvas.text(0, 30, node.label || node.id))
-      .translate(node.point[0], node.point[1])
     }
+    node.shape.translate(node.point[0], node.point[1])
     node.shape.connections = []
     dragify(node.shape)
   }
