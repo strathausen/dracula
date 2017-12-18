@@ -80,7 +80,7 @@ describe('Dracula', () => {
     it('create edge', () => {
       const graph = Dracula.create()
       const edge = graph.addEdge('a', 'b')
-      const result = { source: { id: 'a' }, target: { id: 'b' } }
+      const result = { source: { id: 'a' }, target: { id: 'b' }, style: {} }
       result.source.edges = [result]
       result.target.edges = [result]
       assert.deepEqual(edge, result)
@@ -89,7 +89,7 @@ describe('Dracula', () => {
 
     it('create edge with data', () => {
       const graph = Dracula.create()
-      const edge = graph.addEdge('a', 'b', { style: 'fancy' })
+      const edge = graph.addEdge('a', 'b', 'fancy')
       const result = { source: { id: 'a' }, target: { id: 'b' }, style: 'fancy' }
       result.source.edges = [result]
       result.target.edges = [result]
@@ -103,7 +103,7 @@ describe('Dracula', () => {
       const graph = Dracula.create()
       graph.addEdge('a', 'b')
       const removed = graph.removeEdge('a', 'b')
-      const result = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] } }
+      const result = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] }, style: {} }
       assert.deepEqual(removed, result)
       assert.equal(Object.keys(graph.toJSON().edges).length, 0)
     })
@@ -112,7 +112,7 @@ describe('Dracula', () => {
       const graph = Dracula.create()
       graph.addEdge('a', 'b')
       const removed = graph.removeEdge({ id: 'a' }, { id: 'b' })
-      const resultEdge = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] } }
+      const resultEdge = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] }, style: {} }
       assert.deepEqual(removed, resultEdge)
       assert.equal(Object.keys(graph.toJSON().edges).length, 0)
     })
@@ -121,7 +121,7 @@ describe('Dracula', () => {
       const graph = Dracula.create()
       const edge = graph.addEdge('a', 'b')
       const removed = graph.removeEdge(edge)
-      const resultEdge = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] } }
+      const resultEdge = { source: { id: 'a', edges: [] }, target: { id: 'b', edges: [] }, style: {} }
       assert.deepEqual(removed, resultEdge)
       assert.equal(Object.keys(graph.toJSON().edges).length, 0)
     })
@@ -130,7 +130,7 @@ describe('Dracula', () => {
       const graph = Dracula.create()
       graph.addEdge('a', 'b')
       const removed = graph.removeEdge('b', 'c')
-      const resultEdge = { source: { id: 'a' }, target: { id: 'b' } }
+      const resultEdge = { source: { id: 'a' }, target: { id: 'b' }, style: {} }
       resultEdge.source.edges = [resultEdge]
       resultEdge.target.edges = [resultEdge]
       assert.deepEqual(removed, undefined)
@@ -144,7 +144,7 @@ describe('Dracula', () => {
     graph.addEdge(23, 'c')
     const resultSource = { id: 23 }
     const resultTarget = { id: 'c' }
-    const resultEdge = { source: resultSource, target: resultTarget }
+    const resultEdge = { source: resultSource, target: resultTarget, style: {} }
     resultSource.edges = [resultEdge]
     resultTarget.edges = [resultEdge]
 

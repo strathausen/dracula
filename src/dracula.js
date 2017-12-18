@@ -56,15 +56,14 @@ export default class Dracula {
    * @param {object|} (optional) edge data, e.g. styles
    * @returns {Edge}
    */
-  addEdge(source, target, edgeData = {}) {
-    const sourceNode = this.addNode(source)
-    const targetNode = this.addNode(target)
-    edgeData.source = sourceNode
-    edgeData.target = targetNode
-    this.edges.push(edgeData)
-    sourceNode.edges.push(edgeData)
-    targetNode.edges.push(edgeData)
-    return edgeData
+  addEdge(sourceNode, targetNode, style = {}) {
+    const source = this.addNode(sourceNode)
+    const target = this.addNode(targetNode)
+    const edge = { style, source, target }
+    this.edges.push(edge)
+    source.edges.push(edge)
+    target.edges.push(edge)
+    return edge
   }
 
   /**
