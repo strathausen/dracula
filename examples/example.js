@@ -89,7 +89,7 @@ window.onload = function() {
   g.addEdge('kiwi', 'penguin', st);
 
   /* connect nodes with edges */
-  g.addEdge('strawberry', 'cherry', {directed: true});
+  g.addEdge('strawberry', 'cherry', { directed: true });
   g.addEdge('cherry', 'apple');
   g.addEdge('cherry', 'apple');
   g.addEdge('1', 'id35');
