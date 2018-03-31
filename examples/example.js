@@ -1,43 +1,43 @@
-var redraw;
+var redraw
 
 /* only do all this when document has finished loading (needed for RaphaelJS) */
 window.onload = function() {
 
-  var width = 600;
-  var height = 400;
+  var width = 600
+  var height = 400
 
-  var g = new Dracula.Graph();
+  var g = new Dracula.Graph()
 
   /* add a simple node */
-  g.addNode("strawberry");
-  g.addNode("cherry");
+  g.addNode("strawberry")
+  g.addNode("cherry")
 
   /* add a node with a customized label */
-  g.addNode("1", { label: "Tomato" });
+  g.addNode("1", { label: "Tomato" })
 
 
   /* add a node with a customized shape
      (the Raphael graph drawing implementation can draw this shape, please
      consult the RaphaelJS reference for details http://raphaeljs.com/) */
   var render = function(r, n) {
-    var label = r.text(0, 30, n.label).attr({ opacity: 0 });
+    var label = r.text(0, 30, n.label).attr({ opacity: 0 })
     //the Raphael set is obligatory, containing all you want to display
     var set = r.set()
       .push(
         r.rect(-30, -13, 62, 86)
           .attr({ fill: '#fa8', 'stroke-width': 2, r: 9 })
       )
-      .push(label);
+      .push(label)
 
     // make the label show only on hover
     set.hover(
       function mouseIn() {
-        label.animate({ opacity: 1, 'fill-opacity': 1 }, 500);
+        label.animate({ opacity: 1, 'fill-opacity': 1 }, 500)
       },
       function mouseOut() {
-        label.animate({ opacity: 0 }, 300);
+        label.animate({ opacity: 0 }, 300)
       }
-    );
+    )
 
     // TODO currently not implemented
     // var tooltip = r.set()
@@ -50,15 +50,15 @@ window.onload = function() {
     //   set.items[i].tooltip(tooltip);
     // }
     //            set.tooltip(r.set().push(r.rect(0, 0, 30, 30).attr({"fill": "#fec", "stroke-width": 1, r : "9px"})).hide());
-    return set;
-  };
+    return set
+  }
 
   g.addNode('id35', {
     label: "meat\nand\ngreed",
     /* filling the shape with a color makes it easier to be dragged */
     /* arguments: r = Raphael object, n : node object */
     render: render
-  });
+  })
   // TODO not implemented yet
   //    g.addNode("Wheat", {
   /* filling the shape with a color makes it easier to be dragged */
@@ -85,48 +85,47 @@ window.onload = function() {
     'label-style' : {
       'font-size': 20
     }
-  };
-  g.addEdge('kiwi', 'penguin', st);
+  }
+  g.addEdge('kiwi', 'penguin', st)
 
   /* connect nodes with edges */
-  g.addEdge('strawberry', 'cherry', { directed: true });
-  g.addEdge('cherry', 'apple');
-  g.addEdge('cherry', 'apple');
-  g.addEdge('1', 'id35');
-  g.addEdge('penguin', 'id35');
-  g.addEdge('penguin', 'apple');
-  g.addEdge('kiwi', 'id35');
+  g.addEdge('strawberry', 'cherry', { directed: true })
+  g.addEdge('cherry', 'apple')
+  g.addEdge('cherry', 'apple')
+  g.addEdge('1', 'id35')
+  g.addEdge('penguin', 'id35')
+  g.addEdge('penguin', 'apple')
+  g.addEdge('kiwi', 'id35')
 
   /* a directed connection, using an arrow */
-  g.addEdge('1', 'cherry', { directed: true } );
+  g.addEdge('1', 'cherry', { directed: true } )
 
   /* customize the colors of that edge */
   // TODO currently not implemented
   g.addEdge('id35', 'apple', {
     stroke: '#bfa' , fill: '#56f', label: 'Meat-to-Apple'
-  });
+  })
 
   /* add an unknown node implicitly by adding an edge */
-  g.addEdge('strawberry', 'apple');
+  g.addEdge('strawberry', 'apple')
 
   //g.removeNode("1");
 
   /* layout the graph using the Spring layout implementation */
-  var layouter = new Dracula.Layout.Spring(g);
+  var layouter = new Dracula.Layout.Spring(g)
 
   /* draw the graph using the RaphaelJS draw implementation */
-  var renderer = new Dracula.Renderer.Raphael('#paper', g, width, height);
+  var renderer = new Dracula.Renderer.Raphael('#paper', g, width, height)
 
   redraw = function() {
-    layouter.layout();
-    renderer.draw();
-  };
+    layouter.layout()
+    renderer.draw()
+  }
   hide = function(id) {
-    g.nodes[id].hide();
-  };
+    g.nodes[id].hide()
+  }
   show = function(id) {
-    g.nodes[id].show();
+    g.nodes[id].show()
   };
-  //    console.log(g.nodes["kiwi"]);
-  redraw();
-};
+  redraw()
+}

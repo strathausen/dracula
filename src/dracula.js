@@ -14,7 +14,7 @@ export default class Dracula {
   }
 
   /**
-   * Creator for the new haters :)
+   * `create` for the `new` haters :)
    *
    * @returns {Dracula} a new graph instance
    */
@@ -41,7 +41,7 @@ export default class Dracula {
     }
     if (!nodeData.id) {
       nodeData.id = uuid()
-      // Don't create a new node if it already exists
+    // Don't create a new node if it already exists
     } else if (this.nodes[nodeData.id]) {
       return this.nodes[nodeData.id]
     }
