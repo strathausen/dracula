@@ -7078,7 +7078,7 @@ var dragify = function dragify(shape) {
       this.set.oy = y;
       this.animate({ 'fill-opacity': 0.2 }, 500);
     }, function dragOut() {
-      this.animate({ 'fill-opacity': 0.0 }, 500);
+      this.animate({ 'fill-opacity': 1.0 }, 500);
     });
   });
 };
