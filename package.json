@@ -55,7 +55,7 @@
     "url": "git://github.com/strathausen/dracula.git"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
