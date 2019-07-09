@@ -55,26 +55,26 @@
     "url": "git://github.com/strathausen/dracula.git"
   },
   "dependencies": {
-    "lodash": "^4.17.10",
-    "uuid": "^3.2.1"
+    "lodash": "^4.17.11",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.11.4",
+    "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babelify": "^7.3.0",
-    "browserify": "^13.1.0",
-    "eslint": "^3.12.2",
+    "browserify": "^16.3.0",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-babel": "^4.0.0",
-    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-import": "^2.18.0",
     "mocha": "^5.2.0",
     "randomcolor": "^0.4.4",
-    "raphael": "^2.2.1",
-    "seedrandom": "^2.4.3",
+    "raphael": "^2.2.8",
+    "seedrandom": "^2.4.4",
     "sinon": "^1.17.5",
     "snapsvg": "^0.4.0",
-    "uglify-js": "^3.4.1",
-    "watchify": "^3.11.0"
+    "uglify-js": "^3.6.0",
+    "watchify": "^3.11.1"
   },
   "peerDependencies": {
     "raphael": "^2.2.1"
