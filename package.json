@@ -59,7 +59,7 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.6.0",
     "babel-preset-env": "^1.7.0",
     "babelify": "^7.3.0",
     "browserify": "^16.3.0",
@@ -77,7 +77,7 @@
     "watchify": "^3.11.1"
   },
   "peerDependencies": {
-    "raphael": "^2.2.1"
+    "raphael": "2.x.x"
   },
   "optionalDependencies": {},
   "engines": {
