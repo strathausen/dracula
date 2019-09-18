@@ -4,7 +4,6 @@ import { each } from 'lodash/collection'
  * Base class for distributing nodes algorithms
  */
 export default class Layout {
-
   constructor(graph) {
     this.graph = graph
   }
@@ -47,5 +46,4 @@ export default class Layout {
     this.graph.layoutMinY = miny
     this.graph.layoutMaxY = maxy
   }
-
 }

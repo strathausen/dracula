@@ -2,7 +2,6 @@ import { each } from 'lodash/collection'
 import Layout from './layout'
 
 export default class TournamentTree extends Layout {
-
   /**
    * @param {Graph} graph
    * @param {Array[Node]} order
@@ -41,5 +40,4 @@ export default class TournamentTree extends Layout {
       counter++;
     })
   }
-
 }

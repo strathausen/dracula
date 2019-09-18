@@ -6,7 +6,6 @@ import Layout from './layout'
  * TODO use integers for speed
  */
 export default class Spring extends Layout {
-
   constructor(graph) {
     super(graph)
     this.iterations = 500
@@ -120,5 +119,4 @@ export default class Spring extends Layout {
     node1.layoutForceX += attractiveForce * dx / d
     node1.layoutForceY += attractiveForce * dy / d
   }
-
 }

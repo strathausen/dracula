@@ -2,7 +2,6 @@ import SnapSvg from 'snapsvg'
 import Renderer from './renderer'
 
 export default class RaphaelRenderer extends Renderer {
-
   constructor(element, graph, width, height) {
     super(element, graph, width, height)
     this.canvas = new SnapSvg(this.width, this.height, element)
@@ -23,5 +22,4 @@ export default class RaphaelRenderer extends Renderer {
     edge.shape = this.canvas.line(p1[0], p1[1], p2[0], p2[1])
     edge.shape.attr(this.lineStyle)
   }
-
 }
