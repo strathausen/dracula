@@ -170,7 +170,7 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
       const x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3)
       const y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3)
       const x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3)
-      const y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3)
+      const y3 = [0, 0, 0, 0, y4 - dy, y4 + dy, y4, y4][res[1]].toFixed(3)
 
       /* assemble path and arrow */
       let path = [
