@@ -70,7 +70,9 @@ export default class RaphaelRenderer extends Renderer {
     }
     node.shape.translate(node.point[0], node.point[1])
     node.shape.connections = []
-    dragify(node.shape)
+    if (!node.noDefaultDrag) {
+      dragify(node.shape)
+    }
   }
 
   drawEdge(edge) {
