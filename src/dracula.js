@@ -7,7 +7,6 @@ const isId = x => !!~['string', 'number'].indexOf(typeof x)
  * Graph Data Structure
  */
 export default class Dracula {
-
   constructor() {
     this.nodes = {}
     this.edges = []
@@ -120,5 +119,4 @@ export default class Dracula {
   toJSON() {
     return { nodes: this.nodes, edges: this.edges }
   }
-
 }

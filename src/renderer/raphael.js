@@ -13,37 +13,36 @@ const dragify = (shape) => {
     }
     item.node.style.cursor = 'move';
     item.drag(
-        function dragMove(dx, dy, x, y) {
-          dx = this.set.ox;
-          dy = this.set.oy;
-          const bBox = this.set.getBBox();
-          const newX = x - dx + (bBox.x + bBox.width / 2);
-          const newY = y - dy + (bBox.y + bBox.height / 2);
-          const clientX =
+      function dragMove(dx, dy, x, y) {
+        dx = this.set.ox;
+        dy = this.set.oy;
+        const bBox = this.set.getBBox();
+        const newX = x - dx + (bBox.x + bBox.width / 2);
+        const newY = y - dy + (bBox.y + bBox.height / 2);
+        const clientX =
             x - (newX < 20 ? newX - 20 : newX > r.width - 20 ? newX - r.width + 20 : 0);
-          const clientY =
+        const clientY =
             y - (newY < 20 ? newY - 20 : newY > r.height - 20 ? newY - r.height + 20 : 0);
-          this.set.translate(clientX - Math.round(dx), clientY - Math.round(dy));
-          shape.connections.forEach((connection) => {
-            connection.draw()
-          })
-
-          this.set.ox = clientX;
-          this.set.oy = clientY;
-        },
-        function dragEnter(x, y) {
-          this.set.ox = x;
-          this.set.oy = y;
-          this.animate({ 'fill-opacity': 0.2 }, 500);
-        },
-        function dragOut() {
-          this.animate({ 'fill-opacity': 0.0 }, 500);
+        this.set.translate(clientX - Math.round(dx), clientY - Math.round(dy));
+        shape.connections.forEach((connection) => {
+          connection.draw()
         })
+
+        this.set.ox = clientX;
+        this.set.oy = clientY;
+      },
+      function dragEnter(x, y) {
+        this.set.ox = x;
+        this.set.oy = y;
+        this.animate({ 'fill-opacity': 0.2 }, 500);
+      },
+      function dragOut() {
+        this.animate({ 'fill-opacity': 0.0 }, 500);
+      })
   })
 }
 
 export default class RaphaelRenderer extends Renderer {
-
   constructor(element, graph, width, height) {
     super(element, graph, width, height)
     this.canvas = Raphael(this.element, this.width, this.height)
@@ -65,13 +64,15 @@ export default class RaphaelRenderer extends Renderer {
     } else {
       node.shape = this.canvas.set()
       node.shape
-      .push(this.canvas.ellipse(0, 0, 30, 20)
-        .attr({ stroke: color, 'stroke-width': 2, fill: color, 'fill-opacity': 0 }))
-      .push(this.canvas.text(0, 30, node.label || node.id))
+        .push(this.canvas.ellipse(0, 0, 30, 20)
+          .attr({ stroke: color, 'stroke-width': 2, fill: color, 'fill-opacity': 0 }))
+        .push(this.canvas.text(0, 30, node.label || node.id))
     }
     node.shape.translate(node.point[0], node.point[1])
     node.shape.connections = []
-    dragify(node.shape)
+    if (!node.noDefaultDrag) {
+      dragify(node.shape)
+    }
   }
 
   drawEdge(edge) {
@@ -82,7 +83,6 @@ export default class RaphaelRenderer extends Renderer {
       edge.target.shape.connections.push(edge.shape)
     }
   }
-
 }
 
 // <Raphael.fn.connection>
@@ -172,7 +172,7 @@ Raphael.fn.connection = function Connection(obj1, obj2, style) {
       const x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3)
       const y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3)
       const x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3)
-      const y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3)
+      const y3 = [0, 0, 0, 0, y4 - dy, y4 + dy, y4, y4][res[1]].toFixed(3)
 
       /* assemble path and arrow */
       let path = [

@@ -6,7 +6,6 @@ import { each } from 'lodash/collection'
  * Can transform coordinates to fit onto the canvas
  */
 export default class Renderer {
-
   /**
    * @param {DomElement|String} element target dom element or querySelector
    * @param {Graph} graph Dracula Graph instance
@@ -63,5 +62,4 @@ export default class Renderer {
   static render(...a) {
     return new Renderer(...a)
   }
-
 }

@@ -6,7 +6,6 @@ import Layout from './layout'
  * It assumes the ordered nodes are of a perfect binary tree
  */
 export default class OrderedTree extends Layout {
-
   constructor(graph, order) {
     super(graph)
     this.order = order
@@ -31,5 +30,4 @@ export default class OrderedTree extends Layout {
       counter++;
     })
   }
-
 }
