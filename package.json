@@ -26,6 +26,7 @@
     "check": "eslint src/",
     "fix": "eslint --fix src/",
     "snyk-protect": "snyk protect",
+    "postinstall": "opencollective-postinstall",
     "prepare": "npm run snyk-protect"
   },
   "license": "MIT",
@@ -58,7 +59,9 @@
   },
   "dependencies": {
     "lodash": "^4.17.11",
+    "opencollective-postinstall": "^2.0.2",
     "uuid": "^3.3.2",
+    "opencollective": "^1.0.3",
     "snyk": "^1.316.2"
   },
   "devDependencies": {
@@ -85,6 +88,10 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/dracula"
   },
   "snyk": true
 }
