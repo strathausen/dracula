@@ -58,7 +58,7 @@
     "url": "git://github.com/strathausen/dracula.git"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.20",
     "opencollective-postinstall": "^2.0.2",
     "uuid": "^3.3.2",
     "opencollective": "^1.0.3",
