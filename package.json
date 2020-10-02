@@ -26,8 +26,8 @@
     "check": "eslint src/",
     "fix": "eslint --fix src/",
     "snyk-protect": "snyk protect",
-    "postinstall": "opencollective-postinstall"
-    "prepare": "npm run snyk-protect",
+    "postinstall": "opencollective-postinstall",
+    "prepare": "npm run snyk-protect"
   },
   "license": "MIT",
   "files": [
