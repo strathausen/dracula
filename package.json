@@ -59,27 +59,27 @@
   },
   "dependencies": {
     "lodash": "^4.17.20",
-    "opencollective-postinstall": "^2.0.2",
-    "uuid": "^3.3.2",
     "opencollective": "^1.0.3",
-    "snyk": "^1.316.2"
+    "opencollective-postinstall": "^2.0.2",
+    "snyk": "^1.421.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.6.0",
+    "@babel/cli": "^7.12.1",
     "babel-preset-env": "^1.7.0",
     "babelify": "^7.3.0",
-    "browserify": "^16.3.0",
+    "browserify": "^16.5.2",
     "eslint": "^4.18.2",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-babel": "^4.0.0",
-    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-import": "^2.22.1",
     "mocha": "^8.2.0",
     "randomcolor": "^0.4.4",
     "raphael": "^2.2.8",
     "seedrandom": "^2.4.4",
     "sinon": "^1.17.5",
     "snapsvg": "^0.4.0",
-    "uglify-js": "^3.6.0",
+    "uglify-js": "^3.11.4",
     "watchify": "^3.11.1"
   },
   "peerDependencies": {
