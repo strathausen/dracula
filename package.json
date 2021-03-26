@@ -61,7 +61,7 @@
     "lodash": "^4.17.20",
     "opencollective": "^1.0.3",
     "opencollective-postinstall": "^2.0.2",
-    "snyk": "^1.425.4",
+    "snyk": "^1.465.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
