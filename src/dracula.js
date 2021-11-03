@@ -20,6 +20,26 @@ export default class Dracula {
   static create() {
     return new Dracula()
   }
+  
+  importJSONnodes(nodes) {
+    this.nodes = nodes;
+  }
+
+  importJSONEdges(edges) {
+    //Vertex = Destination node
+    //JSON object must be like {Node: [VERTEX], ...}
+    
+    //Loop trough all nodes
+    for(var node in edges) {
+      if(edges.hasOwnProperty(node)) {
+        
+        //Loop trough all the vertex and add an edge from the node to the vertex
+        for(var target of edges[node] ){
+          this.addEdge(node, target);
+        }
+      }
+    } 
+  }
 
   /**
    * Add node if it doesn't exist yet.
