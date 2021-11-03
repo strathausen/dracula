@@ -29,11 +29,11 @@ export default class Dracula {
     //Vertex = Destination node
     //JSON object must be like {Node: [VERTEX], ...}
     
-    //Loop trough all nodes
+    //Loop through all nodes
     for(var node in edges) {
       if(edges.hasOwnProperty(node)) {
         
-        //Loop trough all the vertex and add an edge from the node to the vertex
+        //Loop through all the vertex and add an edge from the node to the vertex
         for(var target of edges[node] ){
           this.addEdge(node, target);
         }
