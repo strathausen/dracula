@@ -73,7 +73,7 @@
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-import": "^2.22.1",
-    "mocha": "^8.2.0",
+    "mocha": "^10.3.0",
     "randomcolor": "^0.4.4",
     "raphael": "^2.2.8",
     "seedrandom": "^2.4.4",
