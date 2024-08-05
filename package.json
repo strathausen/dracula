@@ -80,7 +80,7 @@
     "sinon": "^1.17.5",
     "snapsvg": "^0.4.0",
     "uglify-js": "^3.11.4",
-    "watchify": "^3.11.1"
+    "watchify": "^4.0.0"
   },
   "peerDependencies": {
     "raphael": "2.x.x"
