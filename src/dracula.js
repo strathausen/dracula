@@ -60,6 +60,7 @@ export default class Dracula {
     const target = this.addNode(targetNode)
     const style = opts.style || opts
     const edge = { style, source, target }
+    if (opts.directed) style.directed = opts.directed
     this.edges.push(edge)
     source.edges.push(edge)
     target.edges.push(edge)
